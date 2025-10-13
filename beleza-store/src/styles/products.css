@@ -1,15 +1,15 @@
 :root {
-    --thistle: #c4b7cb;
-    --french-gray: #bbc7ce;
-    --mint-green: #bfedef;
-    --tiffany-blue: #98e2c6;
-    --ebony: #545c52;
+    --sage: #a9b18f;
+    --old-rose: #cb807d;
+    --cyclamen: #fe64a3;
+    --rose-pompadour: #f6839c;
+    --melon: #f0b5b3;
   }
   
   /* GLOBAL */
   body {
-    background-color: var(--french-gray);
-    color: var(--ebony);
+    background-color: var(--melon);
+    color: var(--old-rose);
     font-family: "Poppins", sans-serif;
     margin: 0;
     padding: 0;
@@ -22,7 +22,7 @@
   }
   
   .section-title {
-    color: var(--ebony);
+    color: var(--old-rose);
     font-size: 2rem;
     margin-bottom: 50px;
     text-align: center;
@@ -36,7 +36,7 @@
     display: block;
     width: 70px;
     height: 3px;
-    background: var(--tiffany-blue);
+    background: var(--rose-pompadour);
     margin: 10px auto 0;
     border-radius: 2px;
   }
@@ -50,9 +50,9 @@
   
   /* CARD */
   .product-card {
-    background-color: var(--mint-green);
+    background-color: var(--melon);
     border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(84, 92, 82, 0.1);
+    box-shadow: 0 4px 15px rgba(203, 128, 125, 0.15);
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -60,10 +60,10 @@
   
   .product-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(84, 92, 82, 0.15);
+    box-shadow: 0 8px 20px rgba(203, 128, 125, 0.25);
   }
   
-  .product-image {
+  .product-img {
     width: 100%;
     height: 250px;
     object-fit: cover;
@@ -76,29 +76,27 @@
   
   .product-name {
     font-size: 1.2rem;
-    color: var(--ebony);
+    color: var(--old-rose);
     margin-bottom: 10px;
     font-weight: 500;
   }
   
-  .product-price {
+  .category {
+    color: var(--sage);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  
+  .description {
+    color: var(--rose-pompadour);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+  }
+  
+  .price {
     font-size: 1rem;
-    color: var(--tiffany-blue);
+    color: var(--cyclamen);
     font-weight: 600;
     margin-bottom: 15px;
-  }
-  
-  .product-btn {
-    background-color: var(--tiffany-blue);
-    color: var(--ebony);
-    border: none;
-    padding: 10px 18px;
-    border-radius: 25px;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-  }
-  
-  .product-btn:hover {
-    background-color: var(--mint-green);
   }
   

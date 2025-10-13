@@ -1,18 +1,7 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  a {
-    color: #0077cc;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  .container {
-    padding: 20px;
-  }
+:root {
+  --sage: #a9b18f;
+  --old-rose: #cb807d;
+  --cyclamen: #fe64a3;
+  --rose-pompadour: #f6839c;
+  --melon: #f0b5b3;
+}

@@ -1,0 +1,112 @@
+.home-container {
+    font-family: "Poppins", sans-serif;
+    color: var(--old-rose);
+  }
+  
+  /* HERO SECTION */
+  .hero {
+    background: url("https://images.unsplash.com/photo-1615208647766-3e7a5d6b9d60?auto=format&fit=crop&w=1200&q=80")
+      center/cover no-repeat;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+  }
+  
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+  }
+  
+  .hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .shop-now-btn {
+    background: var(--old-rose);
+    color: white;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .shop-now-btn:hover {
+    background: var(--rose-pompadour);
+  }
+  
+  /* FEATURED PRODUCTS */
+  .featured {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--melon);
+    color: var(--sage);
+  }
+  
+  .featured h2 {
+    margin-bottom: 40px;
+    font-size: 1.8rem;
+    color: var(--old-rose);
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    justify-items: center;
+  }
+  
+  /* CTA SECTION */
+  .cta {
+    text-align: center;
+    padding: 80px 20px;
+    background: var(--old-rose);
+    color: white;
+  }
+  
+  .cta h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .cta p {
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+  }
+  
+  .signup-btn {
+    background: white;
+    color: var(--old-rose);
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .signup-btn:hover {
+    background: var(--rose-pompadour);
+    color: white;
+  }
+  
