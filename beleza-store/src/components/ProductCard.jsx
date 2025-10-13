@@ -6,10 +6,11 @@ const ProductCard = ({ product }) => {
     <div className="product-card">
       <img src={product.image} alt={product.name} className="product-img" />
       <div className="product-info">
-        <h3>{product.name}</h3>
+        <h3 className="product-name">{product.name}</h3>
         <p className="category">{product.category}</p>
         <p className="description">{product.description}</p>
         <p className="price">{product.price}</p>
+        <button className="add-to-cart">Add to Cart</button>
       </div>
     </div>
   );

@@ -1,66 +1,28 @@
-:root {
-    --sage: #a9b18f;
-    --old-rose: #cb807d;
-    --cyclamen: #fe64a3;
-    --rose-pompadour: #f6839c;
-    --melon: #f0b5b3;
+.products-section {
+    padding: 80px 5%;
+    background: var(--light-gray);
   }
   
-  /* GLOBAL */
-  body {
-    background-color: var(--melon);
-    color: var(--old-rose);
-    font-family: "Poppins", sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* SECTION */
-  .products-section {
-    background-color: #fff;
-    padding: 80px 10%;
-  }
-  
-  .section-title {
-    color: var(--old-rose);
-    font-size: 2rem;
-    margin-bottom: 50px;
-    text-align: center;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    position: relative;
-  }
-  
-  .section-title::after {
-    content: "";
-    display: block;
-    width: 70px;
-    height: 3px;
-    background: var(--rose-pompadour);
-    margin: 10px auto 0;
-    border-radius: 2px;
-  }
-  
-  /* GRID */
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
   
-  /* CARD */
   .product-card {
-    background-color: var(--melon);
+    background-color: var(--white);
     border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(203, 128, 125, 0.15);
+    box-shadow: var(--shadow);
     overflow: hidden;
     transition: all 0.3s ease;
     cursor: pointer;
   }
   
   .product-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(203, 128, 125, 0.25);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   }
   
   .product-img {
@@ -77,26 +39,43 @@
   .product-name {
     font-size: 1.2rem;
     color: var(--old-rose);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: 500;
   }
   
   .category {
     color: var(--sage);
     font-size: 0.9rem;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    font-weight: 400;
   }
   
   .description {
-    color: var(--rose-pompadour);
+    color: #666;
     font-size: 0.95rem;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
+    line-height: 1.5;
   }
   
   .price {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--cyclamen);
     font-weight: 600;
     margin-bottom: 15px;
   }
   
+  .add-to-cart {
+    background: var(--melon);
+    color: var(--old-rose);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .add-to-cart:hover {
+    background: var(--old-rose);
+    color: white;
+  }
