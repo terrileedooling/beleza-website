@@ -38,12 +38,12 @@ const Contact = () => {
     {
       icon: "fas fa-phone",
       title: "Call Us",
-      details: ["+27 21 123 4567", "Mon-Fri: 9am-6pm", "Sat: 9am-2pm"]
+      details: ["021 705 3341"]
     },
     {
       icon: "fas fa-envelope",
       title: "Email Us",
-      details: ["info@belezastore.com", "support@belezastore.com"]
+      details: ["sales@belezapro.co.za", "info@belezapro.co.za"]
     },
     {
       icon: "fas fa-clock",

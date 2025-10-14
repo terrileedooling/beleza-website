@@ -6,9 +6,11 @@ import "../styles/global.css";
 export default function Navbar() {
   return (
     <nav className="navbar">
-      <Link to="/" className="logo">
-        <img src={logo} alt="BELEZA PROFESSIONAL PTY LTD" className="logo-image" />
-      </Link>
+      <div className="logo-container">
+        <Link to="/" className="logo">
+          <img src={logo} alt="BELEZA PROFESSIONAL PTY LTD" className="logo-image" />
+        </Link>
+      </div>
       <div className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/products">Products</Link>
