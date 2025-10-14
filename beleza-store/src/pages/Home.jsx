@@ -19,7 +19,7 @@ export default function Home() {
       category: "Styling",
       description: "Defines curls without weighing them down.",
       price: "R180",
-      image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80",
     },
     {
       id: 3,
@@ -27,7 +27,7 @@ export default function Home() {
       category: "Treatment",
       description: "Promotes growth and strengthens roots.",
       price: "R220",
-      image: "https://images.unsplash.com/photo-1629196914375-9aad5f1d4e0d?auto=format&fit=crop&w=600&q=80",
+      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80",
     },
   ];
 
@@ -50,7 +50,7 @@ export default function Home() {
     {
       id: 4,
       name: "Fragrance",
-      image: "https://images.unsplash.com/photo-1594736797933-d0ea3ff8db41?auto=format&fit=crop&w=600&q=80"
+      image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80"
     }
   ];
 

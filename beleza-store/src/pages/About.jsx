@@ -1,30 +1,8 @@
 import React from "react";
 import "../styles/about.css";
+import Slider from "react-slick";
 
 const About = () => {
-  const teamMembers = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      role: "Founder & CEO",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
-      description: "With over 10 years in the beauty industry, Sarah started Beleza to bring natural, effective products to everyone."
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      role: "Head Formulator",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
-      description: "Michael is a cosmetic chemist dedicated to creating products that are both effective and gentle on the skin."
-    },
-    {
-      id: 3,
-      name: "Emily Rodriguez",
-      role: "Marketing Director",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
-      description: "Emily ensures our message of natural beauty reaches and resonates with our wonderful community."
-    }
-  ];
 
   const values = [
     {
@@ -48,6 +26,32 @@ const About = () => {
       description: "We support local communities and give back through various initiatives."
     }
   ];
+
+  const facebookPosts = [
+    {
+      id: 1,
+      embedUrl: "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fbelezaprofessional%2Fvideos%2F836695471217997%2F&show_text=true&width=357&t=0"
+    },
+    {
+      id: 2,
+      embedUrl: "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fbelezaprofessional%2Fvideos%2F836695471217997%2F&show_text=true&width=357&t=0"
+    },
+    {
+      id: 3,
+      embedUrl: "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fbelezaprofessional%2Fvideos%2F836695471217997%2F&show_text=true&width=357&t=0"
+    }
+  ];
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 600,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    adaptiveHeight: true,
+  };
 
   return (
     <div className="about-page">
@@ -90,7 +94,7 @@ const About = () => {
             </div>
           </div>
           <div className="mission-image">
-            <img src="https://images.unsplash.com/photo-1556228578-7e2c2be6d453?auto=format&fit=crop&w=600&q=80" alt="Our Mission" />
+            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80" alt="Our Mission" />
           </div>
         </div>
       </section>
@@ -109,21 +113,25 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="team-section">
-        <h2 className="section-title">Meet Our Team</h2>
-        <div className="team-grid">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="team-card">
-              <img src={member.image} alt={member.name} className="team-img" />
-              <div className="team-info">
-                <h3>{member.name}</h3>
-                <p className="role">{member.role}</p>
-                <p className="description">{member.description}</p>
-              </div>
+      {/* Facebook Carousel Section */}
+      <section className="facebook-carousel">
+        <h2 className="section-title">From Our Facebook</h2>
+        <Slider {...sliderSettings} className="fb-slider">
+          {facebookPosts.map((post) => (
+            <div key={post.id} className="fb-slide">
+              <iframe
+                src={post.embedUrl}
+                width="500"
+                height="600"
+                style={{ border: "none", overflow: "hidden", margin: "0 auto", display: "block" }}
+                scrolling="no"
+                frameBorder="0"
+                allow="encrypted-media"
+                title={`Facebook post ${post.id}`}
+              ></iframe>
             </div>
           ))}
-        </div>
+        </Slider>
       </section>
 
       {/* CTA Section */}

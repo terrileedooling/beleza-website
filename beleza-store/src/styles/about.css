@@ -211,6 +211,23 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
+.facebook-carousel {
+    padding: var(--space-xxl) 5%;
+    background: var(--background-light);
+    text-align: center;
+  }
+  
+  .fb-slider {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .fb-slide iframe {
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    background: white;
+  }
+
 @media (max-width: 768px) {
     .mission-content {
         grid-template-columns: 1fr;

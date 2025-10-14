@@ -7,7 +7,7 @@ const Products = () => {
   return (
     <section className="products-section">
       <h2 className="section-title">Our Products & Services</h2>
-      <div className="product-grid">
+      <div className="products-grid">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
