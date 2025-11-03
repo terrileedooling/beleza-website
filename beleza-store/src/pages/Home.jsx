@@ -35,23 +35,23 @@ export default function Home() {
     {
       id: 1,
       name: "Hair Care",
-      image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=600&q=80"
+      image: new URL("../assets/products/Hair/hair3.jpg", import.meta.url).href
     },
     {
       id: 2,
-      name: "Skincare",
-      image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=600&q=80"
+      name: "Sea Moss",
+      image: new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href
     },
     {
       id: 3,
-      name: "Makeup",
-      image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80"
+      name: "Hair Tools",
+      image: new URL("../assets/products/Hair/hairtools.jpg", import.meta.url).href
     },
-    {
-      id: 4,
-      name: "Fragrance",
-      image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80"
-    }
+    // {
+    //   id: 4,
+    //   name: "Fragrance",
+    //   image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80"
+    // }
   ];
 
   const testimonials = [
@@ -83,8 +83,8 @@ export default function Home() {
       {/* HERO SECTION */}
       <section className="hero">
         <div className="hero-content">
-          <h1>Discover Your Natural Beauty</h1>
-          <p>Premium hair care, skincare, and beauty products crafted with natural ingredients</p>
+          <h1>Reconnect with your natural radiance</h1>
+          <p>Discover a world of beauty, balance, and care.</p>
           <button className="primary-btn">Shop Now</button>
         </div>
       </section>
