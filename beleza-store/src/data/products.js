@@ -12,7 +12,7 @@ export const products = [
       id: 2,
       name: "Creza Brazilian Cacau Treatment",
       category: "Hair",
-      price: "R1999",
+      price: "R1,999",
       image: new URL('../assets/products/Hair/crezabrazilliancacautreatment.png', import.meta.url).href,
      // description: "Smooth, silky finish that lasts and shines."
     },
@@ -70,18 +70,18 @@ export const products = [
     },
     {
       id: 9,
-      name: "Hair Mask",
-      category: "Beauty",
-      price: "R400",
-      image: new URL('../assets/products/Hair/hair2.png', import.meta.url).href,
-      description: "A calming treatment combining skincare and energy balance."
+      name: "Allanwood Professional Titanium Straightening Flat Iron",
+      category: "Hair",
+      price: "R1,999",
+      image: new URL('../assets/products/Hair/hair4.png', import.meta.url).href,
+      // description: "A calming treatment combining skincare and energy balance."
     },
     {
       id: 10,
-      name: "Silk Press",
+      name: "Creza Brazillian Cacau Treatment",
       category: "Hair",
-      price: "R450",
-      image: new URL('../assets/products/Hair/hair1.png', import.meta.url).href,
-      description: "Smooth, silky finish that lasts and shines."
+      price: "R550",
+      image: new URL('../assets/products/Hair/crezabrazilliancacaus.png', import.meta.url).href,
+      // description: "Smooth, silky finish that lasts and shines."
     }
 ]; 
