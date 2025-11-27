@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../styles/contact.css";
 
+const heroImage = new URL("../assets/site-images/products_header.jpg", import.meta.url).href;
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -38,7 +40,7 @@ const Contact = () => {
     {
       icon: "fas fa-phone",
       title: "Call Us",
-      details: ["021 705 3341"]
+      details: ["021 705 3341", "072 114 3123"]
     },
     {
       icon: "fas fa-envelope",
@@ -55,7 +57,15 @@ const Contact = () => {
   return (
     <div className="contact-page">
       {/* Hero Section */}
-      <section className="contact-hero">
+      <section
+        className="products-hero"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url(${heroImage})
+          `
+        }}
+      >
         <div className="hero-content">
           <h1>Get In Touch</h1>
           <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>

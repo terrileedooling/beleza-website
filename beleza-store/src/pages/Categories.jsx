@@ -1,8 +1,16 @@
-import React from "react";
+import React , { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { products } from "../data/products.js";
 import "../styles/categories.css";
 
 const Categories = () => {
+  const navigate = useNavigate();
+  const heroImage = new URL("../assets/site-images/products_header.jpg", import.meta.url).href;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Calculate categories dynamically from products
   const categoryData = React.useMemo(() => {
     const categoryCounts = products.reduce((acc, product) => {
@@ -35,15 +43,23 @@ const Categories = () => {
   }, []);
 
   const handleExploreCategory = (categoryKey) => {
-    // Navigate to products page with category filter
-    // You can implement this based on your routing setup
-    console.log(`Exploring category: ${categoryKey}`);
-    // Example: navigate(`/products?category=${categoryKey}`);
+    // Navigate to products page with category filter using state
+    navigate('/products', {
+      state: { selectedCategory: categoryKey } // Fixed typo: was "SelectedCategory"
+    });
   };
 
   return (
     <section className="categories-page">
-      <div className="categories-hero">
+      <div
+        className="categories-hero"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url(${heroImage})
+          `
+        }}
+      >
         <div className="hero-content">
           <h1>Our Categories</h1>
           <p>Discover our premium hair care and sea moss collections</p>
@@ -88,7 +104,7 @@ const Categories = () => {
           <div className="feature-card">
             <i className="fas fa-truck"></i>
             <h3>Nationwide Shipping</h3>
-            <p>Free delivery on orders over R500 anywhere in South Africa</p>
+            <p>Delivery available on orders anywhere in South Africa</p>
           </div>
           <div className="feature-card">
             <i className="fas fa-star"></i>
@@ -118,10 +134,10 @@ const Categories = () => {
 
         <div className="info-section seamoss-info">
           <div className="info-image">
-          <img
-            src={new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href}
-            alt="Sea Moss"
-          />
+            <img
+              src={new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href}
+              alt="Sea Moss"
+            />
           </div>
           <div className="info-content">
             <h3>Premium Sea Moss Collection</h3>

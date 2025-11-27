@@ -1,33 +1,33 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import "../styles/home.css";
 import "../styles/global.css";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   const featuredProducts = [
     {
       id: 1,
-      name: "Hydrating Shampoo",
-      category: "Hair Care",
-      description: "Gentle, moisture-rich shampoo for all hair types.",
-      price: "R150",
-      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80",
+      name: "Cosmic Senses Wild Crafted Organic Sea Moss 500g",
+      category: "Sea Moss",
+      price: "R850",
+      image: new URL('../assets/products/Sea Moss/seamossorganic500g.png', import.meta.url).href,
     },
     {
       id: 2,
-      name: "Curl Defining Cream",
-      category: "Styling",
-      description: "Defines curls without weighing them down.",
-      price: "R180",
-      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80",
+      name: "Creza Brazilian Cacau Treatment",
+      category: "Hair",
+      price: "R1,999",
+      image: new URL('../assets/products/Hair/crezabrazilliancacautreatment.png', import.meta.url).href,
     },
     {
       id: 3,
-      name: "Hair Growth Serum",
-      category: "Treatment",
-      description: "Promotes growth and strengthens roots.",
-      price: "R220",
-      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80",
+      name: "Creza Collagen Botox Hair Treatment",
+      category: "Hair",
+      price: "R599",
+      image: new URL('../assets/products/Hair/crezacollagenbotoxhairtreatment.png', import.meta.url).href,
     },
   ];
 
@@ -35,48 +35,59 @@ export default function Home() {
     {
       id: 1,
       name: "Hair Care",
-      image: new URL("../assets/products/Hair/hair3.jpg", import.meta.url).href
+      category: "Hair",
+      image: new URL("../assets/products/Hair/hair3.jpg", import.meta.url).href,
+      productCount: "6 products"
     },
     {
       id: 2,
-      name: "Sea Moss",
-      image: new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href
+      name: "Wellness",
+      category: "Wellness", 
+      image: new URL("../assets/products/Wellness/wellness.jpg", import.meta.url).href,
+      productCount: "5 products"
     },
     {
       id: 3,
-      name: "Hair Tools",
-      image: new URL("../assets/products/Hair/hairtools.jpg", import.meta.url).href
+      name: "Sea Moss",
+      category: "Sea Moss", 
+      image: new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href,
+      productCount: "5 products"
     },
-    // {
-    //   id: 4,
-    //   name: "Fragrance",
-    //   image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80"
-    // }
   ];
 
   const testimonials = [
     {
       id: 1,
-      text: "The hydrating shampoo transformed my dry, brittle hair. I've never received so many compliments!",
+      text: "The Creza Brazilian Cacau Treatment transformed my dry, damaged hair. I've never received so many compliments!",
       author: "Sarah Johnson",
       role: "Verified Customer",
       image: "https://randomuser.me/api/portraits/women/44.jpg"
     },
     {
       id: 2,
-      text: "As someone with curly hair, finding the right products has always been a challenge. Beleza's curl cream is a game-changer!",
+      text: "Cosmic Senses Sea Moss has improved my overall wellness. The quality is exceptional and the results are noticeable!",
       author: "Maya Williams",
       role: "Verified Customer",
       image: "https://randomuser.me/api/portraits/women/68.jpg"
     },
     {
       id: 3,
-      text: "The hair growth serum actually works! I've noticed significant improvement in just two months of use.",
+      text: "The hair growth products actually work! I've noticed significant improvement in just two months of use.",
       author: "Jessica Brown",
       role: "Verified Customer",
       image: "https://randomuser.me/api/portraits/women/26.jpg"
     }
   ];
+
+  const handleCategoryClick = (category) => {
+    navigate('/products', { 
+      state: { selectedCategory: category } 
+    });
+  };
+
+  const handleShopNow = () => {
+    navigate("/products");
+  };
 
   return (
     <div className="home-container">
@@ -84,18 +95,8 @@ export default function Home() {
       <section className="hero">
         <div className="hero-content">
           <h1>Reconnect with your natural radiance</h1>
-          <p>Discover a world of beauty, balance, and care.</p>
-          <button className="primary-btn">Shop Now</button>
-        </div>
-      </section>
-
-      {/* FEATURED PRODUCTS */}
-      <section className="featured">
-        <h2 className="section-title">Featured Products</h2>
-        <div className="product-grid">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          <p>Discover premium hair care and sea moss products for your wellness journey</p>
+          <button className="primary-btn" onClick={handleShopNow}>Shop Now</button>
         </div>
       </section>
 
@@ -104,10 +105,26 @@ export default function Home() {
         <h2 className="section-title">Shop By Category</h2>
         <div className="category-grid">
           {categories.map((category) => (
-            <div key={category.id} className="category-card">
+            <div 
+              key={category.id} 
+              className="category-card"
+              onClick={() => handleCategoryClick(category.category)}
+            >
               <img src={category.image} alt={category.name} />
-              <div className="category-overlay">{category.name}</div>
+              <div className="category-overlay">
+                <h3>{category.name}</h3>
+              </div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED PRODUCTS - USING PRODUCTCARD COMPONENT */}
+      <section className="featured">
+        <h2 className="section-title">Featured Products</h2>
+        <div className="product-grid">
+          {featuredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
@@ -133,9 +150,9 @@ export default function Home() {
 
       {/* CTA SECTION */}
       <section className="cta">
-        <h2>Join the Beleza Family</h2>
-        <p>Sign up for exclusive offers, new product launches, and beauty tips delivered to your inbox.</p>
-        <button className="secondary-btn">Sign Up Now</button>
+        {/* <h2>Join Our Wellness Community</h2>
+        <p>Sign up for exclusive offers, new product launches, and wellness tips delivered to your inbox.</p>
+        <button className="secondary-btn">Sign Up Now</button> */}
       </section>
     </div>
   );

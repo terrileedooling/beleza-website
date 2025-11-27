@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { products } from "../data/products.js";
+import { useCart } from "../context/CartContext"; // ADD THIS
 import "../styles/single-product.css";
 
 const SingleProduct = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart(); // ADD THIS
   const product = products.find(p => p.id === parseInt(id));
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!product) {
     return (
@@ -21,10 +27,10 @@ const SingleProduct = () => {
     setQuantity(prev => Math.max(1, prev + change));
   };
 
+  // UPDATE THIS FUNCTION
   const handleAddToCart = () => {
-    // Add to cart functionality here
-    console.log(`Added ${quantity} of ${product.name} to cart`);
-    // You can implement your cart logic here
+    addToCart(product, quantity);
+    alert(`Added ${quantity} ${product.name} to cart!`);
   };
 
   // Get related products (same category, excluding current product)
@@ -68,21 +74,6 @@ const SingleProduct = () => {
           <button className="add-to-cart-btn" onClick={handleAddToCart}>
             Add to Cart - {product.price}
           </button>
-
-          <div className="product-features">
-            <div className="feature">
-              <i className="fas fa-shipping-fast"></i>
-              <span>Free shipping on orders over R500</span>
-            </div>
-            <div className="feature">
-              <i className="fas fa-undo"></i>
-              <span>30-day return policy</span>
-            </div>
-            <div className="feature">
-              <i className="fas fa-shield-alt"></i>
-              <span>Quality guaranteed</span>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -1,0 +1,84 @@
+/* Success and Cancel Pages */
+.checkout-success,
+.checkout-cancel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.checkout-success h1,
+.checkout-cancel h1 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.checkout-success p {
+  color: var(--success);
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.checkout-cancel p {
+  color: var(--error);
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.checkout-success a,
+.checkout-cancel a {
+  background: var(--primary);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.checkout-success a:hover,
+.checkout-cancel a:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Cart Empty State */
+.cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.cart-empty h2 {
+  color: var(--primary-dark);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* Product Not Found */
+.product-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.back-to-products {
+  background: var(--primary);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  margin-top: 1rem;
+}

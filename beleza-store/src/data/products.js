@@ -226,21 +226,55 @@ Barcode: MPTAL76708411`
     image: new URL('../assets/products/Hair/crezabrazilliancacaus.png', import.meta.url).href,
     description: `Creza Brazilian Cacau keratin Treatment is a transformation process from dry, damaged, frizzy hair to silky smooth, straight manageable hair which last up to to 3 months.
 
-The treatment is a keratin with cacau extract which is the main protein ingredients leaving your hair looking healthy an sleek. This product also promotes fast hair growth and will help you restore split ends by bring the follicles together for a more health looking strand.
+                The treatment is a keratin with cacau extract which is the main protein ingredients leaving your hair looking healthy an sleek. This product also promotes fast hair growth and will help you restore split ends by bring the follicles together for a more health looking strand.
+                  
+                Creza Brazilian Cacau keratin Treatment is amazing because it can be used on chemical treated hair like damaged color or bleached hair as a corrector by restoring the damage shafts. the application process take about 2 hours by using all 3 steps.
+                  
+                All instructions are provided on the bottles with your safety. its important to do all 3 applications if you want the perfect salon results.
+                  
+                What's in the box:
+                1 x Step 1 Creza Clarify shampoo 50ml
+                1 x Step 2 Creza Brazilian Cacau keratin Treatment 50ml
+                1 x Step 3 Creza Deep conditioning mask 50ml
+                  
+                Product Information:
+                Categories: Beauty / Hair Care / Treatments
+                Warranty: Limited (6 months)
+                Hair Concerns: Damaged
+                Barcode: MPTAL75652955`
+  },
+  {
+    id: 11,
+    name: "Organic Soursop Leaf Powder",
+    category: "Wellness",
+    price: "R149",
+    image: new URL('../assets/products/Wellness/soursop.jpeg', import.meta.url).href,
+    description: `Soursop Leaf Powder – 100% Pure & Natural
 
-Creza Brazilian Cacau keratin Treatment is amazing because it can be used on chemical treated hair like damaged color or bleached hair as a corrector by restoring the damage shafts. the application process take about 2 hours by using all 3 steps.
+                  Experience the natural wellness benefits of Soursop Leaf Powder, made from carefully dried and finely ground leaves of the Soursop tree (Annona muricata). Our premium powder is 100% pure, free from fillers, preservatives, or additives — perfect for daily use.
 
-All instructions are provided on the bottles with your safety. its important to do all 3 applications if you want the perfect salon results.
+                  Why Choose Soursop Leaf Powder?
 
-What's in the box:
-1 x Step 1 Creza Clarify shampoo 50ml
-1 x Step 2 Creza Brazilian Cacau keratin Treatment 50ml
-1 x Step 3 Creza Deep conditioning mask 50ml
+                  Antioxidant-Rich: Supports your body’s natural defenses and helps fight free radicals.
 
-Product Information:
-Categories: Beauty / Hair Care / Treatments
-Warranty: Limited (6 months)
-Hair Concerns: Damaged
-Barcode: MPTAL75652955`
+                  Immune Support: Traditionally used to help maintain a healthy immune system.
+
+                  Digestive Comfort: May aid digestion and promote gut well-being.
+
+                  Easy to Use: Brew as a warm herbal tea, blend into smoothies or juices, or add to meals.
+
+                  Product Highlights
+
+                  Vegan, gluten-free, and non-GMO
+
+                  Convenient, long shelf-life powder
+
+                  Pure, natural, and sustainably sourced
+
+                  Usage: Add ½–1 teaspoon to hot water, smoothies, or foods. Steep for 3–5 minutes for a soothing herbal tea.
+
+                  Note: This herbal supplement is for general wellness support and is not a substitute for medical advice. Consult a healthcare professional before use if pregnant, breastfeeding, or on medication.
+
+                  Bring natural wellness to your daily routine with Soursop Leaf Powder — a simple, versatile, and plant-powered addition to your lifestyle.`
   }
 ];

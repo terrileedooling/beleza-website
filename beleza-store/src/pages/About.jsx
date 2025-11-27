@@ -2,6 +2,8 @@ import React from "react";
 import "../styles/about.css";
 import Slider from "react-slick";
 
+const heroImage = new URL("../assets/site-images/products_header.jpg", import.meta.url).href;
+
 const About = () => {
 
   const values = [
@@ -56,7 +58,15 @@ const About = () => {
   return (
     <div className="about-page">
       {/* Hero Section */}
-      <section className="about-hero">
+      <section
+        className="products-hero"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url(${heroImage})
+          `
+        }}
+      >
         <div className="hero-content">
           <h1>Our Story</h1>
           <p>Beleza was born from a passion for natural beauty and a commitment to quality</p>
