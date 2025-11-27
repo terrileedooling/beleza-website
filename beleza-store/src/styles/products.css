@@ -19,6 +19,12 @@
     max-width: 1200px;
     margin: 0 auto;
   }
+
+  .product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
   
   /* Product Card - Fixed for consistent sizing */
   .product-card {
