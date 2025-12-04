@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../styles/contact.css";
 
+const heroImage = new URL("../assets/site-images/products_header.jpg", import.meta.url).href;
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -33,17 +35,17 @@ const Contact = () => {
     {
       icon: "fas fa-map-marker-alt",
       title: "Visit Us",
-      details: ["123 Beauty Street", "Cape Town, 8001", "South Africa"]
+      details: ["Shop 5 Ottery Road , Ottery (opposite the Engen Garage Ottery Road, Cape Town, South Africa"]
     },
     {
       icon: "fas fa-phone",
       title: "Call Us",
-      details: ["+27 21 123 4567", "Mon-Fri: 9am-6pm", "Sat: 9am-2pm"]
+      details: ["021 705 3341", "072 114 3123"]
     },
     {
       icon: "fas fa-envelope",
       title: "Email Us",
-      details: ["info@belezastore.com", "support@belezastore.com"]
+      details: ["sales@belezapro.co.za", "info@belezapro.co.za"]
     },
     {
       icon: "fas fa-clock",
@@ -55,7 +57,15 @@ const Contact = () => {
   return (
     <div className="contact-page">
       {/* Hero Section */}
-      <section className="contact-hero">
+      <section
+        className="products-hero"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url(${heroImage})
+          `
+        }}
+      >
         <div className="hero-content">
           <h1>Get In Touch</h1>
           <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
@@ -135,13 +145,17 @@ const Contact = () => {
             
             <div className="map-column">
               <h2>Find Us</h2>
-              <div className="map-placeholder">
-                <div className="map-content">
-                  <i className="fas fa-map-marked-alt"></i>
-                  <h3>Beleza Store Location</h3>
-                  <p>123 Beauty Street, Cape Town</p>
-                  <p>Easy to find with ample parking</p>
-                </div>
+              <div className="map-container">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3307.1761568919705!2d18.498630475921765!3d-34.01368897317157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc439fa849ce93%3A0xd0a32f60cbe840f2!2sDesired%20Images%20Hair%20%26%20Beauty%20Salon!5e0!3m2!1sen!2sza!4v1760467440687!5m2!1sen!2sza"
+                  width="100%"
+                  height="400"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Beleza Store Location"
+                ></iframe>
               </div>
             </div>
           </div>
