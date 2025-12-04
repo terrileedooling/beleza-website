@@ -307,6 +307,12 @@ export const products = [
     category: "Weightloss",
     price: "R1100",
     image: new URL('../assets/products/Wellness/semaglutide10vial.png', import.meta.url).href,
-    description: `32mg Vial Manjaro Alternative , 2 month supply or more. Slower process weightloss`
+    description: `Semaglutide 10mg – Advanced Weight Management Support
+
+              Semaglutide is a clinically researched GLP-1 peptide designed to support effective and sustainable weight loss. It works by regulating appetite, slowing gastric emptying, and improving the body’s response to insulin — helping you feel full for longer, reduce cravings, and naturally take in fewer calories.
+
+              Semaglutide 10mg is ideal for individuals struggling with emotional eating, constant hunger, or difficulty losing weight through diet and exercise alone. When combined with a healthy lifestyle, it can significantly enhance fat loss, stabilize energy levels, and support long-term weight management.
+
+              This product requires a brief consultation prior to purchase to ensure safe and personalised use.`
   }
 ];

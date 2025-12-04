@@ -8,7 +8,9 @@ const heroImage = new URL("../assets/site-images/products_header.jpg", import.me
 const categoryDescriptions = {
   Hair: "Professional hair treatments and styling tools.",
   Body: "Premium wildcrafted sea moss products and body care.",
-  Wellness: "Wellness essentials designed to boost immunity, increase energy levels, and improve overall health from the inside out."
+  Wellness: "Wellness essentials designed to boost immunity, increase energy levels, and improve overall health from the inside out.",
+  Weightloss: "GLP-1 peptide support designed to help regulate appetite. These products assist the body’s natural processes to improve metabolism, enhance satiety, and support long-term, healthy fat reduction with guided usage.",
+
 };
 
 const Products = () => {
