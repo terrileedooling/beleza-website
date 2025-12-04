@@ -8,7 +8,7 @@ const heroImage = new URL("../assets/site-images/products_header.jpg", import.me
 const categoryDescriptions = {
   Hair: "Professional hair treatments and styling tools.",
   Body: "Premium wildcrafted sea moss products and body care.",
-  Wellness: "Wllness essentials designed to support weight management, boost immunity, increase energy levels, and improve overall health from the inside out."
+  Wellness: "Wellness essentials designed to boost immunity, increase energy levels, and improve overall health from the inside out."
 };
 
 const Products = () => {

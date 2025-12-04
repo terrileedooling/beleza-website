@@ -31,6 +31,12 @@ const Categories = () => {
         description: "Premium wildcrafted sea moss products, gels, and body care",
         image: new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href,
         productCount: `${categoryCounts["Sea Moss"] || 0} products`
+      },
+      "Wellness": {
+        name: "Wellness",
+        description: "Wellness essentials designed to boost immunity, increase energy levels, and improve overall health from the inside out.",
+        image: new URL("../assets/products/Wellness/wellness.jpg", import.meta.url).href,
+        productCount: `${categoryCounts["Wellness"] || 0} products`
       }
     };
 

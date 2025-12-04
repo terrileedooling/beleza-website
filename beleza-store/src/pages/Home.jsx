@@ -53,6 +53,13 @@ export default function Home() {
       image: new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href,
       productCount: "5 products"
     },
+    {
+      id: 4,
+      name: "Weightloss",
+      category: "Weightloss", 
+      image: new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href,
+      productCount: "5 products"
+    },
   ];
 
   const testimonials = [
@@ -72,10 +79,17 @@ export default function Home() {
     },
     {
       id: 3,
-      text: "The hair growth products actually work! I've noticed significant improvement in just two months of use.",
+      text: "The hair straightening solution gave me the smoothest, sleekest results I've ever had! My hair stays frizz-free and silky for weeks — truly long-lasting.",
       author: "Jessica Brown",
       role: "Verified Customer",
       image: "https://randomuser.me/api/portraits/women/26.jpg"
+    },
+    {
+      id: 4,
+      text: "I’ve lost 6kg in my first month! The weight-loss products gave me so much energy and helped control my cravings. I finally feel confident again.",
+      author: "Lauren Smith",
+      role: "Verified Customer",
+      image: "https://randomuser.me/api/portraits/women/15.jpg"
     }
   ];
 
