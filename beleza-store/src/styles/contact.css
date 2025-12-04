@@ -220,6 +220,127 @@
     line-height: 1.6;
     margin: 0;
 }
+/* Add these styles to your existing contact.css file */
+
+/* Hair Services Notice */
+.services-notice {
+    background-color: #f8f9fa;
+    border-left: 4px solid #007bff;
+    padding: 25px;
+    margin: 40px 0;
+    border-radius: 8px;
+  }
+  
+  .notice-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .notice-icon {
+    font-size: 2rem;
+    color: #007bff;
+    margin-top: 5px;
+  }
+  
+  .notice-text h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .notice-text p {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  /* WhatsApp Emphasis Section */
+  .whatsapp-section {
+    background-color: #25D366;
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    margin: 40px 0;
+    text-align: center;
+  }
+  
+  .whatsapp-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .whatsapp-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .whatsapp-text h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  
+  .whatsapp-text p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    opacity: 0.9;
+  }
+  
+  .whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    color: #25D366;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .whatsapp-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+  
+  /* Contact Note */
+  .contact-note {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+  
+  /* Map Section */
+  .map-section {
+    margin: 40px 0;
+  }
+  
+  .map-note {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .notice-content {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .whatsapp-section {
+      padding: 30px 20px;
+    }
+    
+    .whatsapp-btn {
+      padding: 12px 25px;
+      font-size: 1rem;
+    }
+  }
 
 @media (max-width: 768px) {
     .contact-form-container {

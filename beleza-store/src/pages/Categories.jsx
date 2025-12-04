@@ -167,10 +167,9 @@ const Categories = () => {
           <div className="info-content">
             <h3>GLP-1 Peptide Weightloss Collection</h3>
             <p>
-              Our GLP-1 peptide range is designed to support a healthier, more confident you.
-              These products help reduce appetite, improve fullness, and make your weightloss
-              journey easier, safer, and more manageable. Ideal for individuals who want
-              reliable support without extreme dieting or hard restrictions.
+              Our GLP-1 peptide and wellness range is designed to support appetite control, boost metabolism, 
+              and help you achieve sustainable results. We guide you personally before any purchase to ensure 
+              safety, correct usage, and the best plan for your body.
             </p>
 
             <ul>
@@ -179,7 +178,6 @@ const Categories = () => {
               <li>Mounjaro Alternatives</li>
               <li>Weight Management Support Kits</li>
             </ul>
-
             <p>
               Because everyone’s body is different, a short WhatsApp consultation is needed 
               before purchasing to make sure you receive the right guidance and dosage.
