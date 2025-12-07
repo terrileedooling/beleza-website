@@ -37,6 +37,12 @@ const Categories = () => {
         description: "Wellness essentials designed to boost immunity, increase energy levels, and improve overall health from the inside out.",
         image: new URL("../assets/products/Wellness/wellness.jpg", import.meta.url).href,
         productCount: `${categoryCounts["Wellness"] || 0} products`
+      },
+      "Weightloss": {
+        name: "Weightloss",
+        description: "GLP-1 peptides are advanced weight-management treatments designed support weight loss by reducing appetite and promoting fat metabolism.",
+        image: new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href,
+        productCount: `${categoryCounts["Weightloss"] || 0} products`
       }
     };
 
@@ -154,6 +160,34 @@ const Categories = () => {
               <li>Sea Moss Body Care Products</li>
               <li>Bubble Bath & Body Washes</li>
             </ul>
+          </div>
+        </div>
+
+        <div className="info-section weightloss-info">
+          <div className="info-content">
+            <h3>GLP-1 Peptide Weightloss Collection</h3>
+            <p>
+              Our GLP-1 peptide and wellness range is designed to support appetite control, boost metabolism, 
+              and help you achieve sustainable results. We guide you personally before any purchase to ensure 
+              safety, correct usage, and the best plan for your body.
+            </p>
+
+            <ul>
+              <li>GLP-1 Peptide</li>
+              <li>Daily & Weekly Peptide Options</li>
+              <li>Mounjaro Alternatives</li>
+              <li>Weight Management Support Kits</li>
+            </ul>
+            <p>
+              Because everyone’s body is different, a short WhatsApp consultation is needed 
+              before purchasing to make sure you receive the right guidance and dosage.
+            </p>
+          </div>
+          <div className="info-image">
+            <img
+              src={new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href}
+              alt="Weightloss"
+            />
           </div>
         </div>
       </section>

@@ -27,7 +27,7 @@ export default function Navbar() {
             href="https://wa.me/27721143123"
             target="_blank"
             rel="noopener noreferrer"
-            className="whatsapp-btn"
+            className="whatsapp-btn-nav"
         >
         <i className="fab fa-whatsapp"></i>
         </a>

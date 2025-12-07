@@ -79,9 +79,9 @@ const Cart = () => {
             <span>R{cartTotal.toFixed(2)}</span>
           </div>
 
-          <button className="checkout-btn" onClick={checkoutPayFast}>
-            Proceed to Payment
-          </button>
+          <Link to="/checkout" className="checkout-btn">
+            Proceed to Checkout
+          </Link>
 
           <Link to="/products" className="continue-link">
             ← Continue shopping

@@ -295,6 +295,46 @@
     background: var(--primary-dark);
     transform: translateY(-2px);
   }
+
+  /* Weightloss Notice */
+.weightloss-warning {
+    background: #fff7e6;
+    padding: var(--space-md);
+    border-left: 4px solid #ffb84d;
+    border-radius: 8px;
+    color: #b36b00;
+    font-weight: 500;
+    margin-bottom: var(--space-lg);
+    line-height: 1.6;
+  }
+  
+  /* WhatsApp Button */
+  .whatsapp-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #25d366;
+    color: white;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+  }
+  
+  .whatsapp-btn:hover {
+    background: #1ebe5d;
+    transform: translateY(-2px);
+  }
+  
+  /* Optional: WhatsApp icon if you want it later */
+  .whatsapp-btn i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+  }
+
   
   /* Responsive Design */
   @media (max-width: 768px) {
