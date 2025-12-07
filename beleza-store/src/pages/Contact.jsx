@@ -19,9 +19,9 @@ const Contact = () => {
     },
     {
       icon: "fas fa-phone",
-      title: "Phone (Hair Salon)",
+      title: "Phone",
       details: ["021 705 3341"],
-      note: "For hair service appointments only"
+      note: "For general enquiries"
     },
     {
       icon: "fas fa-envelope",
