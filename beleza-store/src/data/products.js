@@ -277,14 +277,14 @@ export const products = [
 
                   Bring natural wellness to your daily routine with Soursop Leaf Powder — a simple, versatile, and plant-powered addition to your lifestyle.`
   },
-  {
-    id: 12,
-    name: "Collagen",
-    category: "Wellness",
-    price: "R149",
-    image: new URL('../assets/products/Wellness/soursop.jpeg', import.meta.url).href,
-    description: `Soursop Leaf Powder – 100% Pure & Natural`
-  },
+  // {
+  //   id: 12,
+  //   name: "Collagen",
+  //   category: "Wellness",
+  //   price: "R149",
+  //   image: new URL('../assets/products/Wellness/soursop.jpeg', import.meta.url).href,
+  //   description: `Soursop Leaf Powder – 100% Pure & Natural`
+  // },
   {
     id: 13,
     name: "Tirzepatide 30mg",
