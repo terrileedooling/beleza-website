@@ -1,20 +1,36 @@
 import { useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import { db } from "../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import "../styles/success.css";
 
 const Success = () => {
-  const { clearCart } = useCart();
+  const { cart, cartTotal, DELIVERY_FEE, finalTotal, clearCart } = useCart();
 
-  // Clear the cart after successful payment
   useEffect(() => {
-    clearCart();
+    const saveOrder = async () => {
+      if (cart.length === 0) return;
+
+      await addDoc(collection(db, "orders"), {
+        items: cart,
+        subtotal: cartTotal,
+        deliveryFee: DELIVERY_FEE,
+        finalTotal: finalTotal,
+        status: "paid",
+        createdAt: serverTimestamp(),
+      });
+
+      clearCart();
+    };
+
+    saveOrder();
   }, []);
 
   return (
     <div className="checkout-success">
       <h1>Payment Successful!</h1>
-      <p>Thank you for your purchase. Your order is confirmed.</p>
+      <p>Your order has been saved. Thank you for your purchase!</p>
       <Link to="/products">Continue Shopping</Link>
     </div>
   );
