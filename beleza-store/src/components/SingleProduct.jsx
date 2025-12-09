@@ -63,7 +63,7 @@ const SingleProduct = () => {
           <p className="product-price">{product.price}</p>
 
           {/* CHECK IF PRODUCT US WEIGHTLOSS */}
-          {product.category === "Weightloss" ? (
+          {product.category === "GLP-1 Peptides" ? (
             <>
                 <p className="weightloss-warning">
                     This product requires a consultation before purchase.

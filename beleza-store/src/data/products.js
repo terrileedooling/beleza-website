@@ -288,31 +288,39 @@ export const products = [
   {
     id: 13,
     name: "Tirzepatide 30mg",
-    category: "Weightloss",
+    category: "GLP-1 Peptides",
     price: "R1700",
     image: new URL('../assets/products/Wellness/tirzepatide30vial.jpg', import.meta.url).href,
-    description: `30mg Self-mix vial Manjaro Alternative, lasts up to 6 weeks`
+    description: `HD Labs Tirzepatide 30mg – Dual-Agonist Peptide & Powerful Mounjaro Alternative
+HD Labs Tirzepatide 30mg is a pharmaceutical-grade dual agonist designed to deliver rapid and effective weight-loss results. This advanced peptide combines strong appetite suppression with enhanced fat-loss support and improved metabolic function, making it a trusted option for individuals seeking real, noticeable transformation.
+Each vial contains 30mg of clinical-grade tirzepatide, offering flexible self-mix and custom-dosing capabilities for personalized use. Thoroughly lab-tested for purity and safety, this formulation serves as a reliable Mounjaro alternative for those wanting a high-performance metabolic booster without compromise.
+Available throughout South Africa with fast, secure delivery, HD Labs Tirzepatide provides a premium, science-backed solution for weight management, fat reduction, and long-term metabolic health.
+`
   },
   {
     id: 14,
     name: "Retatrutide 32mg",
-    category: "Weightloss",
+    category: "GLP-1 Peptides",
     price: "R2300",
     image: new URL('../assets/products/Wellness/retatrutide32vial.jpg', import.meta.url).href,
-    description: `32mg Vial Manjaro Alternative , 2 month supply or more. More targeted`
+    description: `HD Labs Retatrutide 32mg – Advanced Triple-Agonist Peptide & Mounjaro Ultra Alternative
+
+HD Labs Retatrutide 32mg is a cutting-edge, pharmaceutical-grade triple agonist formulated to deliver exceptional weight-loss results. Known for its powerful appetite suppression, enhanced fat-burning effects, and strong metabolic support, Retatrutide is emerging as one of the most advanced solutions available — and a highly effective Mounjaro Ultra alternative.
+
+Each vial contains 32mg of clinical-grade retatrutide and is designed for flexible self-mix, custom dosing, and cost-effective long-term use. The peptide is fully lab-tested for purity, safety, and potency, making it a trusted choice for individuals seeking next-level results beyond standard GLP-1 products.
+
+Proudly available in South Africa with fast nationwide delivery, HD Labs Retatrutide offers a premium, science-backed option for those committed to serious weight-loss transformation and improved metabolic health.`
   },
   {
     id: 15,
     name: "Semaglutide 10mg",
-    category: "Weightloss",
+    category: "GLP-1 Peptides",
     price: "R1100",
     image: new URL('../assets/products/Wellness/semaglutide10vial.png', import.meta.url).href,
-    description: `Semaglutide 10mg – Advanced Weight Management Support
-
-              Semaglutide is a clinically researched GLP-1 peptide designed to support effective and sustainable weight loss. It works by regulating appetite, slowing gastric emptying, and improving the body’s response to insulin — helping you feel full for longer, reduce cravings, and naturally take in fewer calories.
-
-              Semaglutide 10mg is ideal for individuals struggling with emotional eating, constant hunger, or difficulty losing weight through diet and exercise alone. When combined with a healthy lifestyle, it can significantly enhance fat loss, stabilize energy levels, and support long-term weight management.
-
-              This product requires a brief consultation prior to purchase to ensure safe and personalised use.`
+    description: `HD Labs Semaglutide 10mg – Premium GLP-1 Peptide for Effective Weight Loss
+HD Labs Semaglutide 10mg is a clinical-grade GLP-1 agonist designed to support real, sustainable weight loss. Each vial contains 10mg of semaglutide, offering powerful appetite suppression, improved metabolic health, and targeted fat-loss support.
+This pharmaceutical-grade, lab-tested formula is a cost-effective option for individuals seeking a reliable self-mix solution or an alternative to mainstream GLP-1 injections. The vial allows for custom dosing, making it suitable for beginners and experienced users.
+Proudly available in South Africa with fast nationwide delivery, HD Labs Semaglutide provides a trusted, high-quality choice for enhancing weight-loss results and supporting long-term health.
+`
   }
 ];

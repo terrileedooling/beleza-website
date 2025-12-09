@@ -55,8 +55,8 @@ export default function Home() {
     },
     {
       id: 4,
-      name: "Weightloss",
-      category: "Weightloss", 
+      name: "GLP-1 Peptides",
+      category: "GLP-1 Peptides", 
       image: new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href,
       productCount: "5 products"
     },

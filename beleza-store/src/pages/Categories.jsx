@@ -38,11 +38,11 @@ const Categories = () => {
         image: new URL("../assets/products/Wellness/wellness.jpg", import.meta.url).href,
         productCount: `${categoryCounts["Wellness"] || 0} products`
       },
-      "Weightloss": {
-        name: "Weightloss",
+      "GLP-1 Peptides": {
+        name: "GLP-1 Peptides",
         description: "GLP-1 peptides are advanced weight-management treatments designed support weight loss by reducing appetite and promoting fat metabolism.",
         image: new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href,
-        productCount: `${categoryCounts["Weightloss"] || 0} products`
+        productCount: `${categoryCounts["GLP-1 Peptides"] || 0} products`
       }
     };
 
