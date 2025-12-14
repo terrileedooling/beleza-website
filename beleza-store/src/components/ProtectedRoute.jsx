@@ -17,7 +17,10 @@ export default function ProtectedRoute({ children }) {
   }
 
   // Admin check - replace with your admin email
-  const adminEmails = ["admin@example.com", "terrileedooling@gmail.com"];
+  const adminEmails = import.meta.env.VITE_ADMIN_EMAILS
+  .split(",")
+  .map(email => email.trim());
+
   const isAdmin = adminEmails.includes(user.email);
 
   if (!isAdmin) {

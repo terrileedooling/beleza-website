@@ -105,7 +105,7 @@ export default function Login() {
             </button>
 
             <div className="form-footer">
-              <p>Need help? <a href="mailto:support@example.com">Contact support</a></p>
+              <p>Need help?</p>
             </div>
           </form>
         </div>

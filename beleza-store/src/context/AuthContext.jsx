@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const tokenResult = await getIdTokenResult(currentUser);
           const isAdmin = tokenResult.claims.admin || 
-                         currentUser.email === "admin@example.com"; // Replace with your admin email
+                         currentUser.email === import.meta.env.VITE_ADMIN_EMAIL; // Replace with your admin email
           
           setUser({
             ...currentUser,
