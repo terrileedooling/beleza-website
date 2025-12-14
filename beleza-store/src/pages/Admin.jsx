@@ -90,6 +90,26 @@ const Admin = () => {
     setSearchQuery("");
   };
 
+  // All available statuses
+  const statusFilters = ["all", "pending", "processing", "completed", "cancelled"];
+
+  // Status labels for display
+  const statusLabels = {
+    all: "All Orders",
+    pending: "Pending",
+    processing: "Processing",
+    completed: "Completed",
+    cancelled: "Cancelled"
+  };
+
+  // Status colors for actions
+  const statusActions = {
+    pending: ["processing", "completed", "cancelled"],
+    processing: ["completed", "cancelled"],
+    completed: [], // No actions for completed
+    cancelled: []  // No actions for cancelled
+  };
+
   if (loading) {
     return (
       <div className="admin-loading">
@@ -138,15 +158,15 @@ const Admin = () => {
           )}
         </div>
 
-        {/* Status Filters */}
+        {/* Status Filters - INCLUDES PROCESSING */}
         <div className="order-filters">
-          {["all", "pending", "processing", "completed", "cancelled"].map(f => (
+          {statusFilters.map(f => (
             <button
               key={f}
               className={`filter-tab ${filter === f ? "active" : ""}`}
               onClick={() => setFilter(f)}
             >
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {statusLabels[f]}
               {filter === f && orders.length > 0 && (
                 <span className="filter-count">
                   ({orders.filter(o => f === "all" ? true : o.status === f).length})
@@ -161,7 +181,7 @@ const Admin = () => {
       <div className="order-summary">
         <p>
           Showing {filteredOrders.length} of {orders.length} orders
-          {filter !== "all" && ` (${filter} only)`}
+          {filter !== "all" && ` (${statusLabels[filter]} only)`}
           {searchQuery && ` matching "${searchQuery}"`}
         </p>
       </div>
@@ -245,22 +265,45 @@ const Admin = () => {
                   </div>
                 </div>
 
-                {/* Actions */}
+                {/* Actions - More refined with processing status */}
                 <div className="order-actions">
-                  {order.status !== "completed" && (
+                  {/* Show Mark as Processing for pending orders */}
+                  {order.status === "pending" && (
+                    <button
+                      className="action-btn-primary"
+                      onClick={() => handleUpdateStatus(order.id, "processing")}
+                    >
+                      Mark as Processing
+                    </button>
+                  )}
+                  
+                  {/* Show Mark Completed for pending or processing orders */}
+                  {order.status !== "completed" && order.status !== "cancelled" && (
                     <button
                       className="action-btn-primary"
                       onClick={() => handleUpdateStatus(order.id, "completed")}
                     >
-                      Mark Completed
+                      Mark as Completed
                     </button>
                   )}
-                  {order.status !== "cancelled" && (
+                  
+                  {/* Show Cancel for pending or processing orders */}
+                  {order.status !== "cancelled" && order.status !== "completed" && (
                     <button
                       className="action-btn-danger"
                       onClick={() => handleUpdateStatus(order.id, "cancelled")}
                     >
                       Cancel Order
+                    </button>
+                  )}
+                  
+                  {/* Show Reopen for cancelled orders */}
+                  {order.status === "cancelled" && (
+                    <button
+                      className="action-btn-secondary"
+                      onClick={() => handleUpdateStatus(order.id, "pending")}
+                    >
+                      Reopen Order
                     </button>
                   )}
                 </div>
