@@ -37,14 +37,6 @@ const Cart = () => {
     <div className="cart-container">
       <h2 className="section-title">Your Shopping Cart</h2>
 
-      {/* Optional Promo Banner */}
-      {cart.length >= 2 && (
-        <div className="cart-promo">
-          <i className="fas fa-gift"></i>
-          <span>Free delivery on orders over R500!</span>
-        </div>
-      )}
-
       <div className="cart-layout">
         {/* LEFT - Cart Items */}
         <div className="cart-items">
@@ -103,22 +95,12 @@ const Cart = () => {
 
           <div className="summary-row">
             <span>Delivery Fee</span>
-            <span>
-              {cartTotal >= 500 ? (
-                <span style={{ color: '#28a745', fontWeight: 'bold' }}>
-                  FREE
-                </span>
-              ) : (
-                `R${DELIVERY_FEE.toFixed(2)}`
-              )}
-            </span>
+            <span>R{DELIVERY_FEE.toFixed(2)}</span>
           </div>
 
           <div className="summary-row total">
             <span>Total</span>
-            <span>
-              R{(cartTotal + (cartTotal >= 500 ? 0 : DELIVERY_FEE)).toFixed(2)}
-            </span>
+            <span>R{(cartTotal + DELIVERY_FEE).toFixed(2)}</span>
           </div>
 
           <Link to="/checkout" className="checkout-btn">
@@ -132,7 +114,7 @@ const Cart = () => {
 
           <div className="payment-notice" style={{ marginTop: '20px', fontSize: '0.9rem' }}>
             <i className="fas fa-shield-alt"></i>
-            Secure payment · Free returns · Customer support
+            Secure payment · Customer support
           </div>
         </div>
       </div>
