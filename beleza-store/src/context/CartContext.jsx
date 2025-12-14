@@ -69,8 +69,6 @@ export const CartProvider = ({ children }) => {
         customer,
         createdAt: serverTimestamp(),
       });
-
-      console.log("Order ID saved:", docRef.id);
       return docRef.id;
     } catch (err) {
       console.error("Failed to save order:", err);
@@ -81,40 +79,43 @@ export const CartProvider = ({ children }) => {
   // PayFast checkout
   const checkoutPayFast = async (customer) => {
     if (cart.length === 0) return alert("Your cart is empty!");
-
-    const merchantId = "10044048"; // sandbox
-    const merchantKey = "krt3i2fyzql4y"; // sandbox
+  
+    const merchantId = "10044048";
+    const merchantKey = "krt3i2fyzql4y";
     const returnUrl = `${window.location.origin}/success`;
     const cancelUrl = `${window.location.origin}/cancel`;
-    const itemName = `Order ${Date.now()}`;
-    const amount = finalTotal.toFixed(2);
-
+    const itemName = `Order from BELEZA`;
+  
     try {
       // Save order → get its ID
       const orderId = await saveOrder(customer);
-
-      // Build PayFast query
-      let query = `merchant_id=${merchantId}&merchant_key=${merchantKey}`;
+  
+      // Build PayFast query - SIMPLIFIED VERSION
+      let query = `merchant_id=${merchantId}`;
+      query += `&merchant_key=${merchantKey}`;
       query += `&return_url=${encodeURIComponent(returnUrl)}`;
       query += `&cancel_url=${encodeURIComponent(cancelUrl)}`;
-      query += `&custom_str1=${orderId}`;
+      
+      query += `&m_payment_id=${orderId}`;
+      
       query += `&item_name=${encodeURIComponent(itemName)}`;
-      query += `&amount=${amount}`;
-      query += `&name_first=${encodeURIComponent(customer.name)}`;
+      query += `&amount=${finalTotal.toFixed(2)}`;
+      query += `&name_first=${encodeURIComponent(customer.name.split(' ')[0] || '')}`;
       query += `&email_address=${encodeURIComponent(customer.email)}`;
-
-      // Debug
-      console.log("Redirecting to PayFast...");
-      console.log("QUERY PARAMS:", query);
-
-      // Clear cart AFTER building the query
+      
+      // Store order ID in multiple places as backup
+      localStorage.setItem('lastOrderId', orderId);
+      sessionStorage.setItem('pendingOrderId', orderId);
+      
+      // Clear cart
       clearCart();
-
+      
       // Redirect to PayFast
       window.location.href = `https://sandbox.payfast.co.za/eng/process?${query}`;
+  
     } catch (err) {
       console.error("Checkout failed:", err);
-      alert("Failed to process order. Check console for details.");
+      alert("Failed to process order. Please try again.");
     }
   };
 
