@@ -31,7 +31,6 @@ export default function Navbar() {
         >
         <i className="fab fa-whatsapp"></i>
         </a>
-        <i className="fas fa-search"></i>
                 <Link to="/cart" className="cart-icon">
           <i className="fas fa-shopping-bag"></i>
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}

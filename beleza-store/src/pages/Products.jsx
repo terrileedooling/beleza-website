@@ -42,7 +42,13 @@ const Products = () => {
     
     // Filter by category
     if (selectedCategory !== "All") {
-      filtered = products.filter(product => product.category === selectedCategory);
+      filtered = products.filter(product => {
+        // Show Sea Moss products also under Wellness
+        if (selectedCategory === "Wellness" && product.category === "Sea Moss") {
+          return true;
+        }
+        return product.category === selectedCategory;
+      });
     }
     
     // Sort products
@@ -155,7 +161,10 @@ const Products = () => {
               {category}
               {category !== "All" && (
                 <span className="tab-count">
-                  ({products.filter(p => p.category === category).length})
+                  ({products.filter(p => {
+                    if(category === "Wellness" && p.category === "Sea Moss") return true;
+                    return p.category === category;
+                  }).length})
                 </span>
               )}
             </button>
