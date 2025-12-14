@@ -318,24 +318,262 @@
     }
 }
 
+/* Mobile-specific styles */
 @media (max-width: 480px) {
-    .checkout-form input,
-    .checkout-form textarea {
-        padding: 12px 14px;
-        font-size: 0.95rem;
-    }
-    
-    .checkout-summary p {
-        font-size: 1rem;
+    .checkout-container {
+        padding: var(--space-md) 4%;
+        min-height: auto;
     }
     
     .checkout-container h2 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        margin-bottom: var(--space-lg);
+        padding: 0 var(--space-sm) var(--space-sm);
+    }
+    
+    .checkout-container h2::after {
+        width: 60px;
+        height: 3px;
+        margin-top: 8px;
+    }
+    
+    .checkout-layout {
+        gap: var(--space-md);
+    }
+    
+    .checkout-form,
+    .checkout-summary {
+        padding: var(--space-md);
+        border-radius: 12px;
     }
     
     .checkout-form h3,
     .checkout-summary h3 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        margin-bottom: var(--space-md);
+        padding-bottom: 8px;
+    }
+    
+    .checkout-form h3::after,
+    .checkout-summary h3::after {
+        width: 40px;
+        height: 2px;
+    }
+    
+    .field-group {
+        margin-bottom: var(--space-sm);
+    }
+    
+    .field-group label {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    
+    .checkout-form input,
+    .checkout-form textarea {
+        padding: 14px 12px;
+        font-size: 16px; /* Prevents iOS zoom */
+        margin-bottom: var(--space-sm);
+        border-width: 1.5px;
+        border-radius: 6px;
+    }
+    
+    /* Improve touch targets */
+    .checkout-form input,
+    .checkout-form textarea,
+    .checkout-btn {
+        min-height: 48px; /* Minimum touch target size */
+    }
+    
+    .checkout-form textarea {
+        min-height: 100px;
+    }
+    
+    .checkout-summary p {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+    
+    .checkout-summary h2 {
+        font-size: 1.4rem;
+        margin-top: var(--space-md);
+        margin-bottom: var(--space-lg);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .checkout-summary h2 span {
+        font-size: 1.6rem;
+        align-self: flex-end;
+    }
+    
+    .checkout-btn {
+        padding: 16px;
+        font-size: 1rem;
+        border-radius: 25px;
+        min-height: 52px;
+    }
+    
+    /* Payment Summary Items */
+    .summary-item {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .summary-item:last-child {
+        border-bottom: none;
+    }
+    
+    /* Success/Error Messages */
+    .success-message,
+    .error-message {
+        padding: var(--space-sm);
+        margin-top: var(--space-sm);
+        font-size: 0.9rem;
+    }
+    
+    /* Section Cards */
+    .section-card {
+        padding: var(--space-md);
+        margin-bottom: var(--space-md);
+        border-radius: 12px;
+    }
+    
+    /* Payment Notice */
+    .payment-notice {
+        margin-top: var(--space-md);
+        padding: var(--space-sm);
+        font-size: 0.85rem;
+    }
+    
+    /* Validation Errors */
+    .error-text {
+        font-size: 0.8rem;
+        margin-top: 3px;
+        margin-bottom: var(--space-xs);
+    }
+    
+    /* Loading State */
+    .checkout-btn.loading::after {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Remove sticky on mobile for better scrolling */
+    .checkout-summary {
+        position: static;
+    }
+    
+    /* Improve spacing between form sections */
+    .checkout-form > *:not(:last-child) {
+        margin-bottom: var(--space-md);
+    }
+    
+    /* Mobile-specific utility classes */
+    .mobile-stack {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    /* Hide decorative elements on very small screens */
+    @media (max-width: 360px) {
+        .checkout-container h2::after {
+            width: 50px;
+        }
+        
+        .checkout-form,
+        .checkout-summary {
+            padding: var(--space-sm);
+        }
+        
+        .checkout-form h3::after,
+        .checkout-summary h3::after {
+            width: 30px;
+        }
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+    .checkout-container {
+        padding: var(--space-sm) 4%;
+    }
+    
+    .checkout-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .checkout-form input,
+    .checkout-form textarea {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+}
+
+/* Extra small devices optimization */
+@media (max-width: 320px) {
+    .checkout-container {
+        padding: var(--space-sm) 3%;
+    }
+    
+    .checkout-container h2 {
+        font-size: 1.4rem;
+    }
+    
+    .checkout-form input,
+    .checkout-form textarea {
+        padding: 12px 10px;
+        font-size: 15px;
+    }
+    
+    .checkout-btn {
+        padding: 14px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Improve form field spacing on mobile */
+@media (max-width: 480px) {
+    .checkout-form .field-group:not(:last-child) {
+        margin-bottom: var(--space-md);
+    }
+    
+    /* Adjust grid gap for better mobile spacing */
+    .checkout-layout {
+        gap: var(--space-md);
+    }
+}
+
+/* Mobile-specific input styles for better UX */
+@media (max-width: 480px) {
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    textarea {
+        -webkit-appearance: none; /* Remove iOS styling */
+        appearance: none;
+    }
+    
+    /* Remove inner shadow on iOS */
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+}
+
+/* Safe area support for notched phones */
+@supports (padding: max(0px)) {
+    .checkout-container {
+        padding-left: max(4%, env(safe-area-inset-left));
+        padding-right: max(4%, env(safe-area-inset-right));
     }
 }
 

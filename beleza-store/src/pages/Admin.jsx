@@ -35,16 +35,15 @@ const Admin = () => {
     fetchOrders();
   }, []);
 
-  const filteredOrders = orders.filter(order => {
+  const filteredOrders = orders.filter((order) => {
     if (filter === "all") return true;
-    if (filter === "pending") return order.status === "pending";
-    if (filter === "processing") return order.status === "processing";
-    if (filter === "completed") return order.status === "completed";
-    return true;
+    return order.status === filter;
   });
 
   const getStatusBadge = (status) => {
     switch (status?.toLowerCase()) {
+      case "paid":
+        return "status-paid";
       case "pending":
         return "status-pending";
       case "processing":
@@ -58,9 +57,8 @@ const Admin = () => {
     }
   };
 
-  const getCustomerInitial = (name) => {
-    return name ? name.charAt(0).toUpperCase() : "C";
-  };
+  const getCustomerInitial = (name) =>
+    name ? name.charAt(0).toUpperCase() : "C";
 
   const formatDate = (timestamp) => {
     if (!timestamp) return "N/A";
@@ -71,18 +69,19 @@ const Admin = () => {
         month: "short",
         year: "numeric",
         hour: "2-digit",
-        minute: "2-digit"
+        minute: "2-digit",
       });
-    } catch (error) {
+    } catch (e) {
       return "Invalid Date";
     }
   };
 
   const stats = {
     total: orders.length,
-    pending: orders.filter(o => o.status === "pending").length,
-    processing: orders.filter(o => o.status === "processing").length,
-    completed: orders.filter(o => o.status === "completed").length,
+    paid: orders.filter((o) => o.status === "paid").length,
+    pending: orders.filter((o) => o.status === "pending").length,
+    processing: orders.filter((o) => o.status === "processing").length,
+    completed: orders.filter((o) => o.status === "completed").length,
   };
 
   if (loading) {
@@ -99,84 +98,65 @@ const Admin = () => {
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
         <button className="primary-btn" onClick={fetchOrders}>
-          <i className="fas fa-sync-alt"></i>
-          Refresh Orders
+          <i className="fas fa-sync-alt"></i> Refresh Orders
         </button>
       </div>
 
-      {/* Stats Overview */}
+      {/* Stats */}
       <div className="admin-stats">
         <div className="stat-card">
           <h3>Total Orders</h3>
           <div className="stat-number">{stats.total}</div>
-          <div className="stat-sub">All time</div>
+        </div>
+        <div className="stat-card">
+          <h3>Paid</h3>
+          <div className="stat-number">{stats.paid}</div>
         </div>
         <div className="stat-card">
           <h3>Pending</h3>
           <div className="stat-number">{stats.pending}</div>
-          <div className="stat-sub">Awaiting processing</div>
         </div>
         <div className="stat-card">
           <h3>Processing</h3>
           <div className="stat-number">{stats.processing}</div>
-          <div className="stat-sub">In progress</div>
         </div>
         <div className="stat-card">
           <h3>Completed</h3>
           <div className="stat-number">{stats.completed}</div>
-          <div className="stat-sub">Delivered</div>
         </div>
       </div>
 
-      {/* Filter Tabs */}
+      {/* Filters */}
       <div className="order-filters">
-        <button 
-          className={`filter-tab ${filter === "all" ? "active" : ""}`}
-          onClick={() => setFilter("all")}
-        >
-          All Orders ({orders.length})
-        </button>
-        <button 
-          className={`filter-tab ${filter === "pending" ? "active" : ""}`}
-          onClick={() => setFilter("pending")}
-        >
-          Pending ({stats.pending})
-        </button>
-        <button 
-          className={`filter-tab ${filter === "processing" ? "active" : ""}`}
-          onClick={() => setFilter("processing")}
-        >
-          Processing ({stats.processing})
-        </button>
-        <button 
-          className={`filter-tab ${filter === "completed" ? "active" : ""}`}
-          onClick={() => setFilter("completed")}
-        >
-          Completed ({stats.completed})
-        </button>
+        {["all", "paid", "pending", "processing", "completed"].map((f) => (
+          <button
+            key={f}
+            className={`filter-tab ${filter === f ? "active" : ""}`}
+            onClick={() => setFilter(f)}
+          >
+            {f.charAt(0).toUpperCase() + f.slice(1)} (
+            {f === "all" ? orders.length : stats[f]})
+          </button>
+        ))}
       </div>
 
-      {/* Orders Grid */}
+      {/* Orders */}
       {filteredOrders.length === 0 ? (
         <div className="empty-state-admin">
           <i className="fas fa-clipboard-list"></i>
           <h3>No Orders Found</h3>
-          <p>{filter === "all" 
-            ? "There are no orders in the system yet." 
-            : `There are no ${filter} orders at the moment.`}
-          </p>
-          <button className="secondary-btn" onClick={() => setFilter("all")}>
-            View All Orders
-          </button>
         </div>
       ) : (
         <div className="orders-grid">
           {filteredOrders.map((order) => (
             <div key={order.id} className="order-card">
+              {/* Header */}
               <div className="order-header">
                 <div>
-                  <div className="order-id">ID: {order.id.substring(0, 8)}...</div>
-                  <div className="order-time">{formatDate(order.timestamp)}</div>
+                  <div className="order-id">ID: {order.id.slice(0, 8)}...</div>
+                  <div className="order-time">
+                    {formatDate(order.createdAt)}
+                  </div>
                 </div>
                 <div className={`order-status ${getStatusBadge(order.status)}`}>
                   <i className="fas fa-circle"></i>
@@ -185,7 +165,7 @@ const Admin = () => {
               </div>
 
               <div className="order-body">
-                {/* Customer Info */}
+                {/* Customer */}
                 <div className="order-customer">
                   <div className="customer-avatar">
                     {getCustomerInitial(order.customer?.name)}
@@ -194,61 +174,79 @@ const Admin = () => {
                     <h4>{order.customer?.name || "No Name"}</h4>
                     <p>{order.customer?.email || "No Email"}</p>
                     <p>{order.customer?.phone || "No Phone"}</p>
-                  </div>
-                </div>
 
-                {/* Order Total */}
-                <div className="order-total">
-                  <div className="order-total-label">Total Amount</div>
-                  <div className="order-total-amount">
-                    R {parseFloat(order.finalTotal || 0).toFixed(2)}
-                  </div>
-                </div>
-
-                {/* Order Items */}
-                <div className="order-items">
-                  <h4>Order Items</h4>
-                  <div className="items-list">
-                    {Array.isArray(order.items) && order.items.length > 0 ? (
-                      order.items.map((item, index) => (
-                        <div key={index} className="item-row">
-                          <span className="item-name">{item.name || "Unnamed Item"}</span>
-                          <span className="item-quantity">× {item.quantity || 1}</span>
-                        </div>
-                      ))
-                    ) : (
-                      <p>No items in this order.</p>
+                    {/* Address */}
+                    {order.customer?.address && (
+                      <div className="customer-address">
+                        <strong>Address:</strong>
+                        <p>{order.customer.address}</p>
+                        <p>{order.customer.city}</p>
+                        <p>{order.customer.province}</p>
+                        <p>{order.customer.zip}</p>
+                      </div>
                     )}
                   </div>
                 </div>
 
-                {/* Order Actions */}
+                {/* Totals */}
+                <div className="order-total">
+                  <div className="order-total-label">Subtotal</div>
+                  <div className="order-total-amount">
+                    R {parseFloat(order.subtotal || 0).toFixed(2)}
+                  </div>
+                  <div className="order-total-label">Delivery</div>
+                  <div className="order-total-amount">
+                    R {parseFloat(order.deliveryFee || 0).toFixed(2)}
+                  </div>
+                  <div className="order-total-label grand-total">
+                    Final Total
+                  </div>
+                  <div className="order-total-amount grand-total">
+                    R {parseFloat(order.finalTotal || 0).toFixed(2)}
+                  </div>
+                </div>
+
+                {/* Items */}
+                <div className="order-items">
+                  <h4>Order Items</h4>
+                  {order.items?.length > 0 ? (
+                    order.items.map((item, index) => (
+                      <div key={index} className="item-row">
+                        <span>{item.name}</span>
+                        <span>× {item.quantity}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No items.</p>
+                  )}
+                </div>
+
+                {/* Actions */}
                 <div className="order-actions">
                   {order.status !== "completed" && (
                     <button
                       className="action-btn action-btn-primary"
                       onClick={() => updateStatus(order.id, "completed")}
                     >
-                      <i className="fas fa-check"></i>
-                      Mark as Completed
+                      <i className="fas fa-check"></i> Complete
                     </button>
                   )}
-                  {order.status !== "processing" && order.status !== "completed" && (
+
+                  {order.status === "pending" && (
                     <button
                       className="action-btn action-btn-secondary"
                       onClick={() => updateStatus(order.id, "processing")}
                     >
-                      <i className="fas fa-cog"></i>
-                      Start Processing
+                      <i className="fas fa-cog"></i> Process
                     </button>
                   )}
+
                   {order.status !== "cancelled" && (
                     <button
                       className="action-btn action-btn-danger"
                       onClick={() => updateStatus(order.id, "cancelled")}
                     >
-                      <i className="fas fa-times"></i>
-                      Cancel Order
+                      <i className="fas fa-times"></i> Cancel
                     </button>
                   )}
                 </div>

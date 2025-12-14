@@ -2,35 +2,44 @@ import { useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import "../styles/success.css";
 
 const Success = () => {
-  const { cart, cartTotal, DELIVERY_FEE, finalTotal, clearCart } = useCart();
+  const { clearCart } = useCart();
 
   useEffect(() => {
-    const saveOrder = async () => {
-      if (cart.length === 0) return;
+    const updateOrder = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get("custom_str1"); // PayFast sends it as custom_str1
 
-      await addDoc(collection(db, "orders"), {
-        items: cart,
-        subtotal: cartTotal,
-        deliveryFee: DELIVERY_FEE,
-        finalTotal: finalTotal,
-        status: "paid",
-        createdAt: serverTimestamp(),
-      });
+      if (!orderId) {
+        console.warn("No orderId found in return URL");
+        return;
+      }
+
+      try {
+        const orderRef = doc(db, "orders", orderId);
+        await updateDoc(orderRef, {
+          status: "paid",
+          paidAt: new Date(),
+        });
+
+        console.log("Order marked as paid:", orderId);
+      } catch (err) {
+        console.error("Failed to update order:", err);
+      }
 
       clearCart();
     };
 
-    saveOrder();
+    updateOrder();
   }, []);
 
   return (
     <div className="checkout-success">
       <h1>Payment Successful!</h1>
-      <p>Your order has been saved. Thank you for your purchase!</p>
+      <p>Your order has been updated. Thank you for your purchase!</p>
       <Link to="/products">Continue Shopping</Link>
     </div>
   );

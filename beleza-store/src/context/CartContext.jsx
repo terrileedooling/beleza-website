@@ -1,4 +1,3 @@
-// CartContext.js
 import { createContext, useContext, useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -8,24 +7,24 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const DELIVERY_FEE = 150;
 
-  // Load cart from localStorage on first load
+  // Load cart from localStorage
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Sync cart to localStorage whenever it changes
+  // Sync to localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // Safe price parser
+  // Parse price safely
   const parsePrice = (priceString) => {
     if (typeof priceString === "number") return priceString;
     return parseFloat(priceString.replace(/[R,\s]/g, ""));
   };
 
-  // Add new item or increase quantity
+  // Add item
   const addToCart = (product, quantity = 1) => {
     setCart((prev) => {
       const exists = prev.find((item) => item.id === product.id);
@@ -40,7 +39,7 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Update quantity
+  // Update qty
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
     setCart((prev) =>
@@ -48,6 +47,7 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  // Remove, clear cart
   const removeFromCart = (id) => setCart((prev) => prev.filter((item) => item.id !== id));
   const clearCart = () => setCart([]);
 
@@ -69,7 +69,8 @@ export const CartProvider = ({ children }) => {
         customer,
         createdAt: serverTimestamp(),
       });
-      console.log("Order saved with ID:", docRef.id);
+
+      console.log("Order ID saved:", docRef.id);
       return docRef.id;
     } catch (err) {
       console.error("Failed to save order:", err);
@@ -81,28 +82,35 @@ export const CartProvider = ({ children }) => {
   const checkoutPayFast = async (customer) => {
     if (cart.length === 0) return alert("Your cart is empty!");
 
-    const merchantId = "10044048"; // sandbox ID
-    const merchantKey = "krt3i2fyzql4y"; // sandbox key
+    const merchantId = "10044048"; // sandbox
+    const merchantKey = "krt3i2fyzql4y"; // sandbox
     const returnUrl = `${window.location.origin}/success`;
     const cancelUrl = `${window.location.origin}/cancel`;
-    const itemName = `Order ${new Date().getTime()}`;
+    const itemName = `Order ${Date.now()}`;
     const amount = finalTotal.toFixed(2);
 
     try {
-      await saveOrder(customer); // save order first
-      clearCart();
+      // Save order → get its ID
+      const orderId = await saveOrder(customer);
 
+      // Build PayFast query
       let query = `merchant_id=${merchantId}&merchant_key=${merchantKey}`;
       query += `&return_url=${encodeURIComponent(returnUrl)}`;
       query += `&cancel_url=${encodeURIComponent(cancelUrl)}`;
+      query += `&custom_str1=${orderId}`;
       query += `&item_name=${encodeURIComponent(itemName)}`;
       query += `&amount=${amount}`;
       query += `&name_first=${encodeURIComponent(customer.name)}`;
       query += `&email_address=${encodeURIComponent(customer.email)}`;
 
-      console.log("Redirecting to PayFast sandbox...");
-      console.log("Query:", query);
+      // Debug
+      console.log("Redirecting to PayFast...");
+      console.log("QUERY PARAMS:", query);
 
+      // Clear cart AFTER building the query
+      clearCart();
+
+      // Redirect to PayFast
       window.location.href = `https://sandbox.payfast.co.za/eng/process?${query}`;
     } catch (err) {
       console.error("Checkout failed:", err);
