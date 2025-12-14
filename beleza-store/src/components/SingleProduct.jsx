@@ -62,37 +62,18 @@ const SingleProduct = () => {
           <p className="product-category">{product.category}</p>
           <p className="product-price">{product.price}</p>
 
-          {/* CHECK IF PRODUCT US WEIGHTLOSS */}
-          {product.category === "GLP-1 Peptides" ? (
-            <>
-                <p className="weightloss-warning">
-                    This product requires a consultation before purchase.
-                </p>
-                <a
-                    href={`https://wa.me/27721143123?text=Hi, I'm interested in the ${product.name}. I would like to answer the questions.`}
-                    className="whatsapp-btn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Chat on WhatsApp
-                </a>
-            </>
-          ) : (
-            <>
-                <div className="quantity-selector">
-                    <label htmlFor="quantity">Quantity:</label>
-                    <div className="quantity-controls">
-                        <button onClick={() => handleQuantityChange(-1)}>-</button>
-                        <span>{quantity}</span>
-                        <button onClick={() => handleQuantityChange(1)}>+</button>
-                    </div>
-                </div>
+          <div className="quantity-selector">
+            <label htmlFor="quantity">Quantity:</label>
+            <div className="quantity-controls">
+              <button onClick={() => handleQuantityChange(-1)}>-</button>
+              <span>{quantity}</span>
+              <button onClick={() => handleQuantityChange(1)}>+</button>
+            </div>
+          </div>
 
-                <button className="add-to-cart-btn" onClick={handleAddToCart}>
-                  Add to Cart - {product.price}
-                </button>
-            </>
-          )}
+          <button className="add-to-cart-btn" onClick={handleAddToCart}>
+            Add to Cart - {product.price}
+          </button>
         </div>
       </div>
 
