@@ -344,7 +344,15 @@ p {
 
 .nav-links a:focus {
     outline: none;
-  }
+}
+
+.cart-icon:focus,
+.cart-icon:focus-visible {
+    outline: none;
+    background-color: rgba(0, 137, 123, 0.05);
+    border-radius: 50%;
+}
+  
 
 /* Form Styles */
 .form-group {
