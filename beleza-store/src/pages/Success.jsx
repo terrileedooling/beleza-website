@@ -1,46 +1,83 @@
-import { useEffect } from "react";
-import { useCart } from "../context/CartContext";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import "../styles/success.css";
 
 const Success = () => {
-  const { clearCart } = useCart();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [orderUpdated, setOrderUpdated] = useState(false);
+
+  // Retrieve orderId and PayFast info passed from checkout
+  const { orderId, payfastTransactionId } = location.state || {};
 
   useEffect(() => {
-    const updateOrder = async () => {
-      const params = new URLSearchParams(window.location.search);
-      const orderId = params.get("custom_str1"); // PayFast sends it as custom_str1
-
-      if (!orderId) {
-        console.warn("No orderId found in return URL");
+    const updateOrderStatus = async () => {
+      if (!orderId || !payfastTransactionId) {
+        console.error("Missing orderId or PayFast transaction ID");
+        setLoading(false);
         return;
       }
 
       try {
+        // Reference the order doc
         const orderRef = doc(db, "orders", orderId);
+
+        // Update Firestore: status and PayFast transaction
         await updateDoc(orderRef, {
           status: "paid",
+          payfastTransactionId,
           paidAt: new Date(),
         });
 
-        console.log("Order marked as paid:", orderId);
-      } catch (err) {
-        console.error("Failed to update order:", err);
+        setOrderUpdated(true);
+      } catch (error) {
+        console.error("Error updating order:", error);
+        alert("Something went wrong while confirming your payment.");
+      } finally {
+        setLoading(false);
       }
-
-      clearCart();
     };
 
-    updateOrder();
-  }, []);
+    updateOrderStatus();
+  }, [orderId, payfastTransactionId]);
+
+  const handleContinueShopping = () => {
+    navigate("/"); // redirect to home or shop page
+  };
+
+  if (loading) {
+    return (
+      <div className="success-loading">
+        <i className="fas fa-spinner"></i>
+        <p>Confirming your payment...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="checkout-success">
-      <h1>Payment Successful!</h1>
-      <p>Your order has been updated. Thank you for your purchase!</p>
-      <Link to="/products">Continue Shopping</Link>
+    <div className="success-container">
+      {orderUpdated ? (
+        <div className="success-message">
+          <i className="fas fa-check-circle success-icon"></i>
+          <h1>Payment Successful!</h1>
+          <p>
+            Your order <strong>{orderId}</strong> has been confirmed.
+          </p>
+          <p>PayFast Transaction ID: <strong>{payfastTransactionId}</strong></p>
+          <button className="primary-btn" onClick={handleContinueShopping}>
+            Continue Shopping
+          </button>
+        </div>
+      ) : (
+        <div className="success-message">
+          <i className="fas fa-exclamation-circle danger-icon"></i>
+          <h1>Payment could not be confirmed</h1>
+          <p>Please contact support with your order details.</p>
+        </div>
+      )}
     </div>
   );
 };

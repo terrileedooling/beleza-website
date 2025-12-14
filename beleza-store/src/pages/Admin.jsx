@@ -5,83 +5,89 @@ import "../styles/admin.css";
 
 const Admin = () => {
   const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
-
-  const fetchOrders = async () => {
-    try {
-      setLoading(true);
-      const snapshot = await getDocs(collection(db, "orders"));
-      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setOrders(data);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const updateStatus = async (id, newStatus) => {
-    try {
-      await updateDoc(doc(db, "orders", id), { status: newStatus });
-      fetchOrders();
-    } catch (error) {
-      console.error("Error updating status:", error);
-      alert("Failed to update status. Please try again.");
-    }
-  };
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const ordersCollection = collection(db, "orders");
+        const ordersSnapshot = await getDocs(ordersCollection);
+        const ordersData = ordersSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setOrders(ordersData);
+        setFilteredOrders(ordersData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setLoading(false);
+      }
+    };
+
     fetchOrders();
   }, []);
 
-  const filteredOrders = orders.filter((order) => {
-    if (filter === "all") return true;
-    return order.status === filter;
-  });
+  // Apply both filter and search
+  useEffect(() => {
+    let result = orders;
 
-  const getStatusBadge = (status) => {
-    switch (status?.toLowerCase()) {
-      case "paid":
-        return "status-paid";
-      case "pending":
-        return "status-pending";
-      case "processing":
-        return "status-processing";
-      case "completed":
-        return "status-completed";
-      case "cancelled":
-        return "status-cancelled";
-      default:
-        return "status-pending";
+    // Apply status filter
+    if (filter !== "all") {
+      result = result.filter(order => order.status === filter);
     }
-  };
 
-  const getCustomerInitial = (name) =>
-    name ? name.charAt(0).toUpperCase() : "C";
+    // Apply search query
+    if (searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter(order => {
+        // Search in customer name
+        if (order.customer?.name?.toLowerCase().includes(query)) return true;
+        
+        // Search in order ID
+        if (order.id.toLowerCase().includes(query)) return true;
+        
+        // Search in customer email
+        if (order.customer?.email?.toLowerCase().includes(query)) return true;
+        
+        // Search in customer phone
+        if (order.customer?.phone?.includes(query)) return true;
+        
+        // Search in product names
+        if (order.items?.some(item => 
+          item.name.toLowerCase().includes(query)
+        )) return true;
 
-  const formatDate = (timestamp) => {
-    if (!timestamp) return "N/A";
-    try {
-      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-      return date.toLocaleDateString("en-ZA", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
+        return false;
       });
-    } catch (e) {
-      return "Invalid Date";
+    }
+
+    setFilteredOrders(result);
+  }, [orders, filter, searchQuery]);
+
+  const handleUpdateStatus = async (orderId, newStatus) => {
+    try {
+      const orderRef = doc(db, "orders", orderId);
+      await updateDoc(orderRef, { status: newStatus });
+      setOrders(prev =>
+        prev.map(order =>
+          order.id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error("Error updating status:", error);
     }
   };
 
-  const stats = {
-    total: orders.length,
-    paid: orders.filter((o) => o.status === "paid").length,
-    pending: orders.filter((o) => o.status === "pending").length,
-    processing: orders.filter((o) => o.status === "processing").length,
-    completed: orders.filter((o) => o.status === "completed").length,
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
   };
 
   if (loading) {
@@ -93,160 +99,168 @@ const Admin = () => {
     );
   }
 
+  if (!orders.length) {
+    return <div className="empty-state-admin">No orders yet.</div>;
+  }
+
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h1>Admin Dashboard</h1>
-        <button className="primary-btn" onClick={fetchOrders}>
-          <i className="fas fa-sync-alt"></i> Refresh Orders
-        </button>
+        <h1>Orders</h1>
       </div>
 
-      {/* Stats */}
-      <div className="admin-stats">
-        <div className="stat-card">
-          <h3>Total Orders</h3>
-          <div className="stat-number">{stats.total}</div>
+      {/* Search and Filter Section */}
+      <div className="admin-controls">
+        <div className="search-container">
+          <div className="search-input-wrapper">
+            <i className="fas fa-search"></i>
+            <input
+              type="text"
+              placeholder="Search orders by name, order ID, email, or phone..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="order-search-input"
+            />
+            {searchQuery && (
+              <button 
+                className="clear-search-btn" 
+                onClick={clearSearch}
+                aria-label="Clear search"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </div>
+          {searchQuery && (
+            <div className="search-results-info">
+              Found {filteredOrders.length} order{filteredOrders.length !== 1 ? 's' : ''} for "{searchQuery}"
+            </div>
+          )}
         </div>
-        <div className="stat-card">
-          <h3>Paid</h3>
-          <div className="stat-number">{stats.paid}</div>
-        </div>
-        <div className="stat-card">
-          <h3>Pending</h3>
-          <div className="stat-number">{stats.pending}</div>
-        </div>
-        <div className="stat-card">
-          <h3>Processing</h3>
-          <div className="stat-number">{stats.processing}</div>
-        </div>
-        <div className="stat-card">
-          <h3>Completed</h3>
-          <div className="stat-number">{stats.completed}</div>
+
+        {/* Status Filters */}
+        <div className="order-filters">
+          {["all", "pending", "processing", "completed", "cancelled"].map(f => (
+            <button
+              key={f}
+              className={`filter-tab ${filter === f ? "active" : ""}`}
+              onClick={() => setFilter(f)}
+            >
+              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {filter === f && orders.length > 0 && (
+                <span className="filter-count">
+                  ({orders.filter(o => f === "all" ? true : o.status === f).length})
+                </span>
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="order-filters">
-        {["all", "paid", "pending", "processing", "completed"].map((f) => (
-          <button
-            key={f}
-            className={`filter-tab ${filter === f ? "active" : ""}`}
-            onClick={() => setFilter(f)}
-          >
-            {f.charAt(0).toUpperCase() + f.slice(1)} (
-            {f === "all" ? orders.length : stats[f]})
-          </button>
-        ))}
+      {/* Order Count */}
+      <div className="order-summary">
+        <p>
+          Showing {filteredOrders.length} of {orders.length} orders
+          {filter !== "all" && ` (${filter} only)`}
+          {searchQuery && ` matching "${searchQuery}"`}
+        </p>
       </div>
 
       {/* Orders */}
       {filteredOrders.length === 0 ? (
-        <div className="empty-state-admin">
-          <i className="fas fa-clipboard-list"></i>
-          <h3>No Orders Found</h3>
+        <div className="empty-search-state">
+          <i className="fas fa-search"></i>
+          <h3>No orders found</h3>
+          <p>Try a different search term or clear the search to see all orders.</p>
+          <button className="clear-search-full-btn" onClick={clearSearch}>
+            Clear Search
+          </button>
         </div>
       ) : (
         <div className="orders-grid">
-          {filteredOrders.map((order) => (
+          {filteredOrders.map(order => (
             <div key={order.id} className="order-card">
-              {/* Header */}
+              {/* Order Header */}
               <div className="order-header">
                 <div>
-                  <div className="order-id">ID: {order.id.slice(0, 8)}...</div>
-                  <div className="order-time">
-                    {formatDate(order.createdAt)}
-                  </div>
+                  <span className="order-id">Order ID: {order.id}</span>
+                  <br />
+                  <span className="order-time">
+                    {order.createdAt?.toDate
+                      ? order.createdAt.toDate().toLocaleString()
+                      : order.createdAt}
+                  </span>
                 </div>
-                <div className={`order-status ${getStatusBadge(order.status)}`}>
-                  <i className="fas fa-circle"></i>
-                  {order.status || "pending"}
-                </div>
+                <span className={`order-status status-${order.status}`}>
+                  {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                </span>
               </div>
 
+              {/* Order Body */}
               <div className="order-body">
-                {/* Customer */}
+                {/* Customer Info */}
                 <div className="order-customer">
                   <div className="customer-avatar">
-                    {getCustomerInitial(order.customer?.name)}
+                    {order.customer?.name?.charAt(0) || "C"}
                   </div>
                   <div className="customer-info">
-                    <h4>{order.customer?.name || "No Name"}</h4>
-                    <p>{order.customer?.email || "No Email"}</p>
-                    <p>{order.customer?.phone || "No Phone"}</p>
-
-                    {/* Address */}
-                    {order.customer?.address && (
-                      <div className="customer-address">
-                        <strong>Address:</strong>
-                        <p>{order.customer.address}</p>
-                        <p>{order.customer.city}</p>
-                        <p>{order.customer.province}</p>
-                        <p>{order.customer.zip}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Totals */}
-                <div className="order-total">
-                  <div className="order-total-label">Subtotal</div>
-                  <div className="order-total-amount">
-                    R {parseFloat(order.subtotal || 0).toFixed(2)}
-                  </div>
-                  <div className="order-total-label">Delivery</div>
-                  <div className="order-total-amount">
-                    R {parseFloat(order.deliveryFee || 0).toFixed(2)}
-                  </div>
-                  <div className="order-total-label grand-total">
-                    Final Total
-                  </div>
-                  <div className="order-total-amount grand-total">
-                    R {parseFloat(order.finalTotal || 0).toFixed(2)}
+                    <h4>{order.customer?.name}</h4>
+                    <p>{order.customer?.email}</p>
+                    <p>{order.customer?.phone}</p>
+                    <div className="customer-address">
+                      <p>{order.customer?.address}</p>
+                      <p>
+                        {order.customer?.suburb}, {order.customer?.city},{" "}
+                        {order.customer?.postal}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
                 {/* Items */}
                 <div className="order-items">
-                  <h4>Order Items</h4>
-                  {order.items?.length > 0 ? (
-                    order.items.map((item, index) => (
-                      <div key={index} className="item-row">
-                        <span>{item.name}</span>
-                        <span>× {item.quantity}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No items.</p>
-                  )}
+                  <h4>Items</h4>
+                  {order.items?.map(item => (
+                    <div key={item.id} className="item-row">
+                      <span className="item-name">{item.name}</span>
+                      <span className="item-quantity">× {item.quantity}</span>
+                      <span className="item-price">R{item.price}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Totals */}
+                <div className="order-total">
+                  <div>
+                    <span className="order-total-label">Subtotal: </span>
+                    <span className="order-total-amount">R{order.subtotal}</span>
+                  </div>
+                  <div>
+                    <span className="order-total-label">Delivery: </span>
+                    <span className="order-total-amount">R{order.deliveryFee}</span>
+                  </div>
+                  <div className="grand-total">
+                    <span>Final Total: </span>
+                    <span>R{order.finalTotal}</span>
+                  </div>
                 </div>
 
                 {/* Actions */}
                 <div className="order-actions">
                   {order.status !== "completed" && (
                     <button
-                      className="action-btn action-btn-primary"
-                      onClick={() => updateStatus(order.id, "completed")}
+                      className="action-btn-primary"
+                      onClick={() => handleUpdateStatus(order.id, "completed")}
                     >
-                      <i className="fas fa-check"></i> Complete
+                      Mark Completed
                     </button>
                   )}
-
-                  {order.status === "pending" && (
-                    <button
-                      className="action-btn action-btn-secondary"
-                      onClick={() => updateStatus(order.id, "processing")}
-                    >
-                      <i className="fas fa-cog"></i> Process
-                    </button>
-                  )}
-
                   {order.status !== "cancelled" && (
                     <button
-                      className="action-btn action-btn-danger"
-                      onClick={() => updateStatus(order.id, "cancelled")}
+                      className="action-btn-danger"
+                      onClick={() => handleUpdateStatus(order.id, "cancelled")}
                     >
-                      <i className="fas fa-times"></i> Cancel
+                      Cancel Order
                     </button>
                   )}
                 </div>
