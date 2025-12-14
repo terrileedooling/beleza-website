@@ -36,7 +36,6 @@ export default function Navbar() {
           <i className="fas fa-shopping-bag"></i>
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
-        <i className="fas fa-user"></i>
       </div>
     </nav>
   );
