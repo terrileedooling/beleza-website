@@ -80,8 +80,8 @@ export const CartProvider = ({ children }) => {
   const checkoutPayFast = async (customer) => {
     if (cart.length === 0) return alert("Your cart is empty!");
   
-    const merchantId = "10044048";
-    const merchantKey = "krt3i2fyzql4y";
+    const merchantId = import.meta.env.VITE_MERCHANT_ID;
+    const merchantKey = import.meta.env.VITE_MERCHANT_KEY;
     const returnUrl = `${window.location.origin}/success`;
     const cancelUrl = `${window.location.origin}/cancel`;
     const itemName = `Order from BELEZA`;
