@@ -18,7 +18,7 @@ const About = () => {
     {
       icon: "fas fa-spa", 
       title: "Wellness",
-      description: "Whether you want glowing skin, restored hair, immune support, or weight-loss guidance — we offer products that support your body naturally and holistically."
+      description: "Whether you want glowing skin, restored hair, immune support, or overall wellness support — we offer products that support your body naturally and holistically."
     },
     {
       icon: "fas fa-eye", 
@@ -60,21 +60,22 @@ const About = () => {
           <div className="mission-text">
             <h2>Our Mission</h2>
             <p>
-            At Beleza, we believe that beauty and wellness work together.
-            That’s why our products are thoughtfully curated — blending nature, science, and self-care into solutions that support real, visible results.
+              At Beleza, we believe that beauty and wellness work together.
+              That’s why our products are thoughtfully curated — blending nature, science, and self-care into solutions that support real, visible results.
 
-            From wildcrafted Caribbean Sea Moss to professional hair treatments, collagen boosters, body care, and our GLP-1 peptide support range, everything we offer is selected with your health, confidence, and long-term wellness in mind.
+              From wildcrafted Caribbean Sea Moss to professional hair treatments, collagen boosters, and body care, everything we offer is selected with your health, confidence, and long-term wellness in mind.
 
-            We started as a small business with a focus on natural beauty, and today Beleza has grown into a trusted wellness destination — known for transparency, quality, and products that truly work.
+              We started as a small business with a focus on natural beauty, and today Beleza has grown into a trusted wellness destination — known for transparency, quality, and products that truly work.
 
-
-            A Growing Brand Built on Trust & Quality
+              A Growing Brand Built on Trust & Quality
             </p>
+
             <p>
               We've grown from a small local business to a trusted name in natural 
               beauty products, all while staying true to our core values of quality, sustainability, 
               and community.
             </p>
+
             <div className="stats-grid">
               <div className="stat">
                 <h3>5000+</h3>
@@ -90,6 +91,7 @@ const About = () => {
               </div>
             </div>
           </div>
+
           <div className="mission-image">
             <img src={missionImage} alt="Our Mission" />
           </div>

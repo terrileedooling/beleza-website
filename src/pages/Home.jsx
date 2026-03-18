@@ -53,13 +53,13 @@ export default function Home() {
       image: new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href,
       productCount: "5 products"
     },
-    {
-      id: 4,
-      name: "GLP-1 Peptides",
-      category: "GLP-1 Peptides", 
-      image: new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href,
-      productCount: "5 products"
-    },
+    // {
+    //   id: 4,
+    //   name: "GLP-1 Peptides",
+    //   category: "GLP-1 Peptides", 
+    //   image: new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href,
+    //   productCount: "5 products"
+    // },
   ];
 
   const testimonials = [
@@ -84,13 +84,13 @@ export default function Home() {
       role: "Verified Customer",
       image: "https://randomuser.me/api/portraits/women/26.jpg"
     },
-    {
-      id: 4,
-      text: "I’ve lost 6kg in my first month! The weight-loss products gave me so much energy and helped control my cravings. I finally feel confident again.",
-      author: "Lauren Smith",
-      role: "Verified Customer",
-      image: "https://randomuser.me/api/portraits/women/15.jpg"
-    }
+    // {
+    //   id: 4,
+    //   text: "I’ve lost 6kg in my first month! The weight-loss products gave me so much energy and helped control my cravings. I finally feel confident again.",
+    //   author: "Lauren Smith",
+    //   role: "Verified Customer",
+    //   image: "https://randomuser.me/api/portraits/women/15.jpg"
+    // }
   ];
 
   const handleCategoryClick = (category) => {
