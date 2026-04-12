@@ -1,35 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 import "../styles/home.css";
-import "../styles/global.css";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { products, loading } = useProducts();
 
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Cosmic Senses Wild Crafted Organic Sea Moss 500g",
-      category: "Sea Moss",
-      price: "R850",
-      image: new URL('../assets/products/Sea Moss/seamossorganic500g.png', import.meta.url).href,
-    },
-    {
-      id: 2,
-      name: "Creza Brazilian Cacau Treatment",
-      category: "Hair",
-      price: "R1,999",
-      image: new URL('../assets/products/Hair/crezabrazilliancacautreatment.png', import.meta.url).href,
-    },
-    {
-      id: 3,
-      name: "Creza Collagen Botox Hair Treatment",
-      category: "Hair",
-      price: "R599",
-      image: new URL('../assets/products/Hair/crezacollagenbotoxhairtreatment.png', import.meta.url).href,
-    },
-  ];
+  // ONLY show products that are BOTH featured AND visible
+  const featuredProducts = products
+    .filter(p => p.featured === true && p.visible !== false)
+    .slice(0, 6); // Show up to 6 featured products
 
   const categories = [
     {
@@ -37,29 +19,19 @@ export default function Home() {
       name: "Hair Care",
       category: "Hair",
       image: new URL("../assets/products/Hair/hair3.jpg", import.meta.url).href,
-      productCount: "6 products"
     },
     {
       id: 2,
       name: "Wellness",
       category: "Wellness", 
       image: new URL("../assets/products/Wellness/wellness.jpg", import.meta.url).href,
-      productCount: "5 products"
     },
     {
       id: 3,
       name: "Sea Moss",
       category: "Sea Moss", 
       image: new URL("../assets/products/Sea Moss/seamoss.png", import.meta.url).href,
-      productCount: "5 products"
     },
-    // {
-    //   id: 4,
-    //   name: "GLP-1 Peptides",
-    //   category: "GLP-1 Peptides", 
-    //   image: new URL("../assets/products/Wellness/weightloss.jpg", import.meta.url).href,
-    //   productCount: "5 products"
-    // },
   ];
 
   const testimonials = [
@@ -79,33 +51,32 @@ export default function Home() {
     },
     {
       id: 3,
-      text: "The hair straightening solution gave me the smoothest, sleekest results I've ever had! My hair stays frizz-free and silky for weeks — truly long-lasting.",
+      text: "The hair straightening solution gave me the smoothest, sleekest results I've ever had!",
       author: "Jessica Brown",
       role: "Verified Customer",
       image: "https://randomuser.me/api/portraits/women/26.jpg"
     },
-    // {
-    //   id: 4,
-    //   text: "I’ve lost 6kg in my first month! The weight-loss products gave me so much energy and helped control my cravings. I finally feel confident again.",
-    //   author: "Lauren Smith",
-    //   role: "Verified Customer",
-    //   image: "https://randomuser.me/api/portraits/women/15.jpg"
-    // }
   ];
 
   const handleCategoryClick = (category) => {
-    navigate('/products', { 
-      state: { selectedCategory: category } 
-    });
+    navigate('/products', { state: { selectedCategory: category } });
   };
 
   const handleShopNow = () => {
     navigate("/products");
   };
 
+  if (loading) {
+    return (
+      <div className="home-loading">
+        <i className="fas fa-spinner fa-spin"></i>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="home-container">
-      {/* HERO SECTION */}
       <section className="hero">
         <div className="hero-content">
           <h1>Reconnect with your natural radiance</h1>
@@ -114,7 +85,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CATEGORIES SECTION */}
       <section className="categories">
         <h2 className="section-title">Shop By Category</h2>
         <div className="category-grid">
@@ -133,17 +103,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURED PRODUCTS - USING PRODUCTCARD COMPONENT */}
-      <section className="featured">
-        <h2 className="section-title">Featured Products</h2>
-        <div className="product-grid">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
+      {/* ONLY show featured products section if there ARE featured products */}
+      {featuredProducts.length > 0 && (
+        <section className="featured">
+          <h2 className="section-title">Featured Products</h2>
+          <div className="product-grid">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* TESTIMONIALS */}
       <section className="testimonials">
         <h2 className="section-title">What Our Customers Say</h2>
         <div className="testimonial-grid">
@@ -160,13 +131,6 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* CTA SECTION */}
-      <section className="cta">
-        {/* <h2>Join Our Wellness Community</h2>
-        <p>Sign up for exclusive offers, new product launches, and wellness tips delivered to your inbox.</p>
-        <button className="secondary-btn">Sign Up Now</button> */}
       </section>
     </div>
   );

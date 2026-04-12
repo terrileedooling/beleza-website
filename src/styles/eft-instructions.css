@@ -1,0 +1,498 @@
+/* EFT Instructions Page Styles */
+.eft-instructions-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: 70vh;
+  }
+  
+  /* Loading State */
+  .eft-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 20px;
+  }
+  
+  .eft-loading i {
+    font-size: 48px;
+    color: #2c1810;
+    animation: spin 1s linear infinite;
+  }
+  
+  .eft-loading p {
+    font-size: 18px;
+    color: #666;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Error State */
+  .eft-error {
+    text-align: center;
+    padding: 80px 20px;
+    min-height: 60vh;
+  }
+  
+  .eft-error h1 {
+    color: #f44336;
+    margin-bottom: 20px;
+  }
+  
+  .home-link {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #2c1810;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+  
+  .home-link:hover {
+    background: #4a2c1e;
+  }
+  
+  /* Success Header */
+  .eft-success-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+    border-radius: 16px;
+    color: white;
+  }
+  
+  .eft-success-header i {
+    font-size: 64px;
+    margin-bottom: 20px;
+  }
+  
+  .eft-success-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  .eft-success-header p {
+    font-size: 18px;
+    opacity: 0.9;
+  }
+  
+  /* Main Content */
+  .eft-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  /* Bank Details Card */
+  .bank-details-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e5e5;
+  }
+  
+  .bank-details-card h2 {
+    color: #2c1810;
+    margin-bottom: 25px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .bank-details-card h2 i {
+    color: #4caf50;
+  }
+  
+  .bank-details {
+    margin-bottom: 25px;
+  }
+  
+  .detail-row {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+  
+  .detail-row .label {
+    width: 140px;
+    font-weight: 600;
+    color: #666;
+  }
+  
+  .detail-row .value {
+    flex: 1;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .detail-row .value.reference {
+    font-family: monospace;
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c1810;
+    letter-spacing: 1px;
+  }
+  
+  .copy-btn {
+    background: #f5f5f5;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.3s;
+    margin-left: 10px;
+  }
+  
+  .copy-btn:hover {
+    background: #2c1810;
+    color: white;
+  }
+  
+  .payment-amount {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .payment-amount span {
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .payment-amount strong {
+    font-size: 28px;
+    color: #2c1810;
+    font-weight: bold;
+  }
+  
+  /* Instructions Card */
+  .instructions-card {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 30px;
+    border-left: 4px solid #4caf50;
+  }
+  
+  .instructions-card h3 {
+    color: #2c1810;
+    margin-bottom: 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .instructions-card ol {
+    margin: 0;
+    padding-left: 20px;
+  }
+  
+  .instructions-card li {
+    padding: 12px 0;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .instructions-card li strong {
+    color: #2c1810;
+  }
+  
+  /* Order Summary Card */
+  .order-summary-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e5e5;
+  }
+  
+  .order-summary-card h3 {
+    color: #2c1810;
+    margin-bottom: 20px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .order-item span:first-child {
+    color: #555;
+  }
+  
+  .order-item span:last-child {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .order-totals {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e5e5;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+  
+  .order-totals div:not(.total) {
+    color: #666;
+  }
+  
+  .order-totals div:last-child {
+    text-align: right;
+  }
+  
+  .order-totals .total {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #ddd;
+    font-weight: bold;
+    font-size: 18px;
+    color: #2c1810;
+  }
+  
+  .order-totals .total:first-child {
+    font-weight: bold;
+    color: #2c1810;
+  }
+  
+  /* Contact Support */
+  .contact-support {
+    background: #e8f5e9;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .contact-support i {
+    font-size: 28px;
+    color: #4caf50;
+  }
+  
+  .contact-support p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .contact-support a {
+    color: #2c1810;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .contact-support a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Continue Shopping Button */
+  .continue-shopping {
+    display: inline-block;
+    text-align: center;
+    background: #2c1810;
+    color: white;
+    padding: 14px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-top: 20px;
+    align-self: center;
+  }
+  
+  .continue-shopping:hover {
+    background: #4a2c1e;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .eft-instructions-container {
+      padding: 20px 15px;
+    }
+  
+    .eft-success-header {
+      padding: 20px;
+    }
+  
+    .eft-success-header i {
+      font-size: 48px;
+    }
+  
+    .eft-success-header h1 {
+      font-size: 24px;
+    }
+  
+    .bank-details-card,
+    .instructions-card,
+    .order-summary-card {
+      padding: 20px;
+    }
+  
+    .detail-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  
+    .detail-row .label {
+      width: 100%;
+    }
+  
+    .detail-row .value {
+      width: 100%;
+    }
+  
+    .copy-btn {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+  
+    .payment-amount {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+  
+    .payment-amount strong {
+      font-size: 24px;
+    }
+  
+    .instructions-card li {
+      font-size: 14px;
+    }
+  
+    .order-totals {
+      font-size: 14px;
+    }
+  
+    .contact-support {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .continue-shopping {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
+  /* Print Styles for EFT Instructions */
+  @media print {
+    .navbar,
+    .footer,
+    .continue-shopping,
+    .copy-btn,
+    .contact-support {
+      display: none;
+    }
+  
+    .eft-instructions-container {
+      padding: 20px;
+    }
+  
+    .bank-details-card,
+    .instructions-card,
+    .order-summary-card {
+      box-shadow: none;
+      border: 1px solid #ddd;
+      page-break-inside: avoid;
+    }
+  
+    .eft-success-header {
+      background: #4caf50;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+  
+  /* Animation for success */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .eft-success-header,
+  .bank-details-card,
+  .instructions-card,
+  .order-summary-card,
+  .contact-support {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+  
+  .bank-details-card {
+    animation-delay: 0.1s;
+  }
+  
+  .instructions-card {
+    animation-delay: 0.2s;
+  }
+  
+  .order-summary-card {
+    animation-delay: 0.3s;
+  }
+  
+  .contact-support {
+    animation-delay: 0.4s;
+  }
+  
+  /* Additional utility classes */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-20 {
+    margin-top: 20px;
+  }
+  
+  .mb-20 {
+    margin-bottom: 20px;
+  }
+  
+  .warning-note {
+    background: #fff3e0;
+    border-left: 4px solid #ff9800;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  .warning-note i {
+    color: #ff9800;
+    margin-right: 10px;
+  }

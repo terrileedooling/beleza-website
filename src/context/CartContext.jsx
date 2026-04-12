@@ -7,6 +7,14 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const DELIVERY_FEE = 150;
 
+  // Payment methods configuration (can be moved to admin settings later)
+  const [paymentMethods, setPaymentMethods] = useState({
+    payfast: true,
+    eft: true,
+    payjustnow: false, // Set to true when approved
+    payflex: false      // Set to true when approved
+  });
+
   // Load cart from localStorage
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
@@ -55,8 +63,8 @@ export const CartProvider = ({ children }) => {
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const finalTotal = cartTotal + DELIVERY_FEE;
 
-  // Save order to Firestore
-  const saveOrder = async (customer) => {
+  // Save order to Firestore with dual statuses
+  const saveOrder = async (customer, paymentMethod, paymentStatus = "unpaid", fulfillmentStatus = "pending") => {
     if (cart.length === 0) throw new Error("Cart is empty");
 
     try {
@@ -65,9 +73,16 @@ export const CartProvider = ({ children }) => {
         subtotal: cartTotal,
         deliveryFee: DELIVERY_FEE,
         finalTotal,
-        status: "pending",
-        customer,
+        // Dual status system
+        paymentStatus: paymentStatus,     // unpaid, paid, refunded, failed
+        fulfillmentStatus: fulfillmentStatus, // pending, processing, shipped, delivered, cancelled
+        paymentMethod: paymentMethod,
+        customer: {
+          ...customer,
+          paymentMethod: paymentMethod
+        },
         createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
       });
       return docRef.id;
     } catch (err) {
@@ -87,23 +102,22 @@ export const CartProvider = ({ children }) => {
     const itemName = `Order from BELEZA`;
   
     try {
-      // Save order → get its ID
-      const orderId = await saveOrder(customer);
+      // Save order with paymentStatus = "unpaid" initially
+      // Success page will update to "paid"
+      const orderId = await saveOrder(customer, "PayFast", "unpaid", "pending");
   
-      // Build PayFast query - SIMPLIFIED VERSION
+      // Build PayFast query
       let query = `merchant_id=${merchantId}`;
       query += `&merchant_key=${merchantKey}`;
       query += `&return_url=${encodeURIComponent(returnUrl)}`;
       query += `&cancel_url=${encodeURIComponent(cancelUrl)}`;
-      
       query += `&m_payment_id=${orderId}`;
-      
       query += `&item_name=${encodeURIComponent(itemName)}`;
       query += `&amount=${finalTotal.toFixed(2)}`;
       query += `&name_first=${encodeURIComponent(customer.name.split(' ')[0] || '')}`;
       query += `&email_address=${encodeURIComponent(customer.email)}`;
       
-      // Store order ID in multiple places as backup
+      // Store order ID as backup
       localStorage.setItem('lastOrderId', orderId);
       sessionStorage.setItem('pendingOrderId', orderId);
       
@@ -119,6 +133,60 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // EFT Checkout
+  const checkoutEFT = async (customer) => {
+    if (cart.length === 0) return alert("Your cart is empty!");
+    
+    try {
+      // Save order with paymentStatus = "unpaid" (waiting for EFT)
+      const orderId = await saveOrder(customer, "EFT", "unpaid", "pending");
+      
+      // Clear cart
+      clearCart();
+      
+      // Redirect to EFT instructions page
+      window.location.href = `/eft-instructions/${orderId}`;
+      
+    } catch (err) {
+      console.error("EFT checkout failed:", err);
+      alert("Failed to process order. Please try again.");
+    }
+  };
+
+  // PayJustNow checkout (placeholder - implement when approved)
+  const checkoutPayJustNow = async (customer) => {
+    alert("PayJustNow coming soon! We'll notify you when this payment method is available.");
+  };
+
+  // PayFlex checkout (placeholder - implement when approved)
+  const checkoutPayFlex = async (customer) => {
+    alert("PayFlex coming soon! We'll notify you when this payment method is available.");
+  };
+
+  // Get available payment methods for checkout
+  const getAvailablePaymentMethods = () => {
+    const available = [];
+    if (paymentMethods.payfast) available.push({ id: 'payfast', name: 'Credit Card / PayFast', icon: 'fab fa-cc-visa' });
+    if (paymentMethods.eft) available.push({ id: 'eft', name: 'EFT (Bank Transfer)', icon: 'fas fa-university' });
+    if (paymentMethods.payjustnow) available.push({ id: 'payjustnow', name: 'PayJustNow', icon: 'fab fa-paypal' });
+    if (paymentMethods.payflex) available.push({ id: 'payflex', name: 'PayFlex', icon: 'fas fa-credit-card' });
+    return available;
+  };
+
+  // Toggle payment methods (for admin settings)
+  const togglePaymentMethod = (method, enabled) => {
+    setPaymentMethods(prev => ({ ...prev, [method]: enabled }));
+    localStorage.setItem('paymentMethods', JSON.stringify({ ...paymentMethods, [method]: enabled }));
+  };
+
+  // Load payment methods from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('paymentMethods');
+    if (saved) {
+      setPaymentMethods(JSON.parse(saved));
+    }
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
@@ -131,6 +199,12 @@ export const CartProvider = ({ children }) => {
         finalTotal,
         DELIVERY_FEE,
         checkoutPayFast,
+        checkoutEFT,
+        checkoutPayJustNow,
+        checkoutPayFlex,
+        getAvailablePaymentMethods,
+        paymentMethods,
+        togglePaymentMethod
       }}
     >
       {children}

@@ -11,10 +11,12 @@ import Cancel from "./pages/Cancel";
 import Checkout from "./pages/Checkout";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
+import EFTInstructions from "./pages/EFTInstructions";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
+
   return (
     <>
       <Navbar />
@@ -30,6 +32,7 @@ function App() {
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/eft-instructions/:orderId" element={<EFTInstructions />} />
           <Route path="/login" element={<Login />} />
           <Route
             path="/admin"
