@@ -1031,3 +1031,218 @@
       justify-content: center;
     }
   }
+
+  /* Dual Filters */
+.dual-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-group label {
+    font-weight: 600;
+    color: #666;
+    min-width: 120px;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .filter-chip {
+    padding: 6px 14px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s;
+  }
+  
+  .filter-chip:hover {
+    border-color: #2c1810;
+    background: #f5f5f5;
+  }
+  
+  .filter-chip.active {
+    background: #2c1810;
+    color: white;
+    border-color: #2c1810;
+  }
+  
+  /* Order Badges */
+  .order-badges {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .payment-badge, .fulfillment-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  /* Payment Status Badges */
+  .payment-paid {
+    background: #e8f5e9;
+    color: #4caf50;
+  }
+  
+  .payment-unpaid {
+    background: #fff3e0;
+    color: #ff9800;
+  }
+  
+  .payment-refunded {
+    background: #ffebee;
+    color: #f44336;
+  }
+  
+  .payment-failed {
+    background: #ffebee;
+    color: #f44336;
+  }
+  
+  /* Fulfillment Status Badges */
+  .fulfillment-pending {
+    background: #fff3e0;
+    color: #ff9800;
+  }
+  
+  .fulfillment-processing {
+    background: #e3f2fd;
+    color: #2196f3;
+  }
+  
+  .fulfillment-shipped {
+    background: #e8f5e9;
+    color: #4caf50;
+  }
+  
+  .fulfillment-delivered {
+    background: #c8e6c9;
+    color: #2e7d32;
+  }
+  
+  .fulfillment-cancelled {
+    background: #ffebee;
+    color: #f44336;
+  }
+  
+  /* Status Sections */
+  .status-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e5e5;
+  }
+  
+  .status-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .status-header strong {
+    color: #333;
+    font-size: 13px;
+  }
+  
+  .status-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .action-btn-small {
+    padding: 5px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .action-btn-small.primary {
+    background: #2196f3;
+    color: white;
+  }
+  
+  .action-btn-small.primary:hover {
+    background: #1976d2;
+  }
+  
+  .action-btn-small.success {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .action-btn-small.success:hover {
+    background: #45a049;
+  }
+  
+  .action-btn-small.warning {
+    background: #ff9800;
+    color: white;
+  }
+  
+  .action-btn-small.warning:hover {
+    background: #fb8c00;
+  }
+  
+  .action-btn-small.danger {
+    background: #f44336;
+    color: white;
+  }
+  
+  .action-btn-small.danger:hover {
+    background: #da190b;
+  }
+  
+  .action-btn-small.secondary {
+    background: #9e9e9e;
+    color: white;
+  }
+  
+  .action-btn-small.secondary:hover {
+    background: #757575;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .dual-filters .filter-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .order-badges {
+      flex-direction: column;
+    }
+    
+    .status-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .status-actions {
+      flex-wrap: wrap;
+    }
+  }

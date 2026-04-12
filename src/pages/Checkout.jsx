@@ -3,8 +3,18 @@ import { useCart } from "../context/CartContext";
 import "../styles/checkout.css";
 
 const Checkout = () => {
-  const { finalTotal, DELIVERY_FEE, checkoutPayFast } = useCart();
+  const { 
+    finalTotal, 
+    DELIVERY_FEE, 
+    checkoutPayFast, 
+    checkoutEFT,
+    checkoutPayJustNow,
+    checkoutPayFlex,
+    getAvailablePaymentMethods 
+  } = useCart();
+  
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("payfast");
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
@@ -18,11 +28,13 @@ const Checkout = () => {
     postal: "",
   });
 
+  // Get available payment methods (PayJustNow and PayFlex will be hidden until enabled)
+  const availablePaymentMethods = getAvailablePaymentMethods();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
     
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
     }
@@ -31,8 +43,6 @@ const Checkout = () => {
   const handleBlur = (e) => {
     const { name } = e.target;
     setTouched(prev => ({ ...prev, [name]: true }));
-    
-    // Validate individual field on blur
     validateField(name, form[name]);
   };
 
@@ -79,7 +89,6 @@ const Checkout = () => {
       }
     });
     
-    // Specific validations
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = "Please enter a valid email address";
     }
@@ -97,7 +106,7 @@ const Checkout = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handlePay = async () => {
+  const handlePayment = async () => {
     if (!validateForm()) {
       alert("Please fix the errors in the form");
       return;
@@ -106,7 +115,22 @@ const Checkout = () => {
     setIsProcessing(true);
     
     try {
-      await checkoutPayFast(form);
+      switch (selectedPaymentMethod) {
+        case "payfast":
+          await checkoutPayFast(form);
+          break;
+        case "eft":
+          await checkoutEFT(form);
+          break;
+        case "payjustnow":
+          await checkoutPayJustNow(form);
+          break;
+        case "payflex":
+          await checkoutPayFlex(form);
+          break;
+        default:
+          await checkoutPayFast(form);
+      }
     } catch (error) {
       console.error("Checkout error:", error);
       alert("An error occurred during checkout. Please try again.");
@@ -118,6 +142,12 @@ const Checkout = () => {
   const getFieldClassName = (name) => {
     if (!touched[name]) return "";
     return errors[name] ? "invalid" : form[name] ? "valid" : "";
+  };
+
+  // Get the selected payment method name for the button
+  const getSelectedMethodName = () => {
+    const method = availablePaymentMethods.find(m => m.id === selectedPaymentMethod);
+    return method ? method.name : "Selected Method";
   };
 
   return (
@@ -225,7 +255,7 @@ const Checkout = () => {
           </div>
         </div>
 
-        {/* RIGHT - Order Summary */}
+        {/* RIGHT - Order Summary & Payment */}
         <div className="checkout-summary">
           <h3>Order Summary</h3>
           
@@ -243,16 +273,73 @@ const Checkout = () => {
               <span>R{finalTotal.toFixed(2)}</span>
             </h2>
           </div>
+
+          {/* Payment Methods Selection */}
+          <div className="payment-methods-section">
+            <h4>Select Payment Method</h4>
+            <div className="payment-options">
+              {availablePaymentMethods.map(method => (
+                <label 
+                  key={method.id} 
+                  className={`payment-option ${selectedPaymentMethod === method.id ? 'selected' : ''}`}
+                >
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value={method.id}
+                    checked={selectedPaymentMethod === method.id}
+                    onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                  />
+                  <i className={method.icon}></i>
+                  <span>{method.name}</span>
+                </label>
+              ))}
+            </div>
+            
+            {/* EFT Information */}
+            {selectedPaymentMethod === 'eft' && (
+              <div className="payment-info eft-info">
+                <i className="fas fa-info-circle"></i>
+                <div>
+                  <strong>How EFT payments work:</strong>
+                  <ul>
+                    <li>You'll receive an email with our bank details</li>
+                    <li>Make a transfer using the provided reference number</li>
+                    <li>Email proof of payment to orders@beleza.co.za</li>
+                    <li>Your order will be processed once payment is confirmed</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+            
+            {/* PayJustNow Coming Soon (hidden until enabled in CartContext) */}
+            {selectedPaymentMethod === 'payjustnow' && (
+              <div className="payment-info coming-soon">
+                <i className="fas fa-clock"></i>
+                <p>PayJustNow is coming soon! You'll be able to pay in 3 interest-free installments.</p>
+              </div>
+            )}
+            
+            {/* PayFlex Coming Soon (hidden until enabled in CartContext) */}
+            {selectedPaymentMethod === 'payflex' && (
+              <div className="payment-info coming-soon">
+                <i className="fas fa-clock"></i>
+                <p>PayFlex is coming soon! Split your payment into 4 interest-free installments.</p>
+              </div>
+            )}
+          </div>
           
           <button 
             className={`checkout-btn ${isProcessing ? 'loading' : ''}`}
-            onClick={handlePay}
+            onClick={handlePayment}
             disabled={isProcessing}
           >
-            {isProcessing ? '' : (
+            {isProcessing ? (
+              <><i className="fas fa-spinner fa-spin"></i> Processing...</>
+            ) : (
               <>
                 <i className="fas fa-lock"></i>
-                Pay Securely with PayFast
+                Pay with {getSelectedMethodName()}
               </>
             )}
           </button>

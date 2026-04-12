@@ -12,13 +12,8 @@ const Success = () => {
 
   useEffect(() => {
     const processPaymentSuccess = async () => {
-      
-      // Get ALL URL parameters
+      // Get URL parameters
       const searchParams = new URLSearchParams(window.location.search);
-      const allParams = {};
-      searchParams.forEach((value, key) => {
-        allParams[key] = value;
-      });
       
       // Try different possible parameter names for order ID
       let orderId = searchParams.get("m_payment_id") || 
@@ -31,7 +26,6 @@ const Success = () => {
                          searchParams.get("transaction_id") ||
                          searchParams.get("txn_id");
       
-      // If no orderId found, show error
       if (!orderId) {
         console.error("No order ID found in URL or localStorage");
         setLoading(false);
@@ -39,10 +33,7 @@ const Success = () => {
       }
 
       try {
-        // Reference the order document in Firestore
         const orderRef = doc(db, "orders", orderId);
-        
-        // Get the current order data
         const orderSnap = await getDoc(orderRef);
         
         if (!orderSnap.exists()) {
@@ -53,23 +44,18 @@ const Success = () => {
         const order = { id: orderSnap.id, ...orderSnap.data() };
         setOrderData(order);
         
-        // If we have a transaction ID, update the order
-        if (transactionId) {
-          if (order.status !== "paid") {
-            await updateDoc(orderRef, {
-              status: "paid",
-              payfastTransactionId: transactionId,
-              paidAt: new Date(),
-            });
-          }
-        } else {
-          // If no transaction ID, still mark as paid if not already
-          if (order.status !== "paid") {
-            await updateDoc(orderRef, {
-              status: "paid",
-              paidAt: new Date(),
-            });
-          }
+        // ONLY update payment status - leave fulfillment status unchanged
+        const updateData = {
+          paymentStatus: "paid",  // Separate payment status
+          payfastTransactionId: transactionId || null,
+          paidAt: new Date(),
+          updatedAt: new Date()
+        };
+        
+        // Only update if not already marked as paid
+        if (order.paymentStatus !== "paid") {
+          await updateDoc(orderRef, updateData);
+          console.log("Payment status updated to: paid");
         }
         
         // Clear stored order ID
@@ -97,7 +83,7 @@ const Success = () => {
     return (
       <div className="success-container">
         <div className="success-loading">
-          <i className="fas fa-spinner"></i>
+          <i className="fas fa-spinner fa-spin"></i>
           <p>Confirming your payment...</p>
         </div>
       </div>
@@ -109,13 +95,14 @@ const Success = () => {
       {orderUpdated && orderData ? (
         <div className="success-message">
           <i className="fas fa-check-circle success-icon"></i>
-          <h1>Payment Successful</h1>
+          <h1>Payment Successful!</h1>
           <p>
-            Your order <strong>{orderData.id}</strong> has been confirmed.
+            Your payment for order <strong>{orderData.id.slice(0, 8)}</strong> has been confirmed.
           </p>
           {orderData.payfastTransactionId && (
             <p>Transaction ID: <strong>{orderData.payfastTransactionId}</strong></p>
           )}
+          <p>We will process your order and notify you once it's ready for shipping.</p>
           <button className="primary-btn" onClick={handleContinueShopping}>
             Continue Shopping
           </button>
@@ -124,7 +111,7 @@ const Success = () => {
         <div className="success-message">
           <i className="fas fa-exclamation-circle danger-icon"></i>
           <h1>Payment could not be confirmed</h1>
-          <p>No order ID was received. Please contact support.</p>
+          <p>Please contact support with your order reference.</p>
           <button className="primary-btn" onClick={handleContinueShopping}>
             Return to Home
           </button>
