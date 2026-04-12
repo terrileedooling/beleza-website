@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { products } from "../data/products.js";
+import { useProducts } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 import "../styles/products.css";
 
@@ -15,35 +15,38 @@ const categoryDescriptions = {
 
 const Products = () => {
   const location = useLocation();
+  const { products, loading } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOption, setSortOption] = useState("default");
 
-  // Scroll to top when component mounts or category changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [selectedCategory]);
 
-  // Get the category from navigation state when component mounts
   useEffect(() => {
     if (location.state?.selectedCategory) {
       setSelectedCategory(location.state.selectedCategory);
     }
   }, [location.state]);
 
-  // Get unique categories from products
-  const categories = useMemo(() => {
-    const uniqueCategories = [...new Set(products.map(product => product.category))];
-    return ["All", ...uniqueCategories];
-  }, []);
+  // Filter ONLY visible products (and not hidden)
+  const visibleProducts = useMemo(() => {
+    return products.filter(product => product.visible !== false);
+  }, [products]);
 
-  // Filter and sort products
+  const categories = useMemo(() => {
+    if (!visibleProducts.length) return ["All"];
+    const uniqueCategories = [...new Set(visibleProducts.map(product => product.category))];
+    return ["All", ...uniqueCategories];
+  }, [visibleProducts]);
+
   const filteredAndSortedProducts = useMemo(() => {
-    let filtered = products;
+    if (!visibleProducts.length) return [];
     
-    // Filter by category
+    let filtered = visibleProducts;
+    
     if (selectedCategory !== "All") {
-      filtered = products.filter(product => {
-        // Show Sea Moss products also under Wellness
+      filtered = visibleProducts.filter(product => {
         if (selectedCategory === "Wellness" && product.category === "Sea Moss") {
           return true;
         }
@@ -51,18 +54,17 @@ const Products = () => {
       });
     }
     
-    // Sort products
     switch (sortOption) {
       case "price-low-high":
         return [...filtered].sort((a, b) => {
-          const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
-          const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
+          const priceA = typeof a.price === 'number' ? a.price : parseFloat(a.price.replace(/[^0-9]/g, ''));
+          const priceB = typeof b.price === 'number' ? b.price : parseFloat(b.price.replace(/[^0-9]/g, ''));
           return priceA - priceB;
         });
       case "price-high-low":
         return [...filtered].sort((a, b) => {
-          const priceA = parseInt(a.price.replace(/[^0-9]/g, ''));
-          const priceB = parseInt(b.price.replace(/[^0-9]/g, ''));
+          const priceA = typeof a.price === 'number' ? a.price : parseFloat(a.price.replace(/[^0-9]/g, ''));
+          const priceB = typeof b.price === 'number' ? b.price : parseFloat(b.price.replace(/[^0-9]/g, ''));
           return priceB - priceA;
         });
       case "name-asc":
@@ -72,9 +74,8 @@ const Products = () => {
       default:
         return filtered;
     }
-  }, [selectedCategory, sortOption]);
+  }, [visibleProducts, selectedCategory, sortOption]);
 
-  // Group products by category for the categorized view
   const productsByCategory = useMemo(() => {
     const grouped = {};
     filteredAndSortedProducts.forEach(product => {
@@ -86,17 +87,23 @@ const Products = () => {
     return grouped;
   }, [filteredAndSortedProducts]);
 
-  const totalProducts = filteredAndSortedProducts.length;
+  if (loading) {
+    return (
+      <section className="products-page">
+        <div className="products-loading">
+          <i className="fas fa-spinner fa-spin"></i>
+          <p>Loading products...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="products-page">
       <div
         className="products-hero"
         style={{
-          backgroundImage: `
-            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-            url(${heroImage})
-          `
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImage})`
         }}
       >
         <div className="hero-content">
@@ -106,11 +113,10 @@ const Products = () => {
       </div>
 
       <div className="products-container">
-        {/* Filters and Controls */}
         <div className="products-header">
           <div className="products-meta">
             <span className="products-count">
-              {totalProducts} product{totalProducts !== 1 ? 's' : ''} 
+              {filteredAndSortedProducts.length} product{filteredAndSortedProducts.length !== 1 ? 's' : ''} 
               {selectedCategory !== "All" && ` in ${selectedCategory}`}
             </span>
           </div>
@@ -150,7 +156,6 @@ const Products = () => {
           </div>
         </div>
 
-        {/* Category Tabs for quick filtering */}
         <div className="category-tabs">
           {categories.map(category => (
             <button
@@ -159,27 +164,22 @@ const Products = () => {
               onClick={() => setSelectedCategory(category)}
             >
               {category}
-              {category !== "All" && (
-                <span className="tab-count">
-                  ({products.filter(p => {
-                    if(category === "Wellness" && p.category === "Sea Moss") return true;
-                    return p.category === category;
-                  }).length})
-                </span>
-              )}
             </button>
           ))}
         </div>
 
-        {/* Products Grid - Organized by Category when "All" is selected */}
-        {selectedCategory === "All" ? (
-          // Show products grouped by category
+        {filteredAndSortedProducts.length === 0 ? (
+          <div className="no-products">
+            <h3>No products found</h3>
+            <p>Try selecting a different category.</p>
+          </div>
+        ) : selectedCategory === "All" ? (
           <div className="products-by-category">
             {Object.entries(productsByCategory).map(([category, categoryProducts]) => (
               <div key={category} className="category-section">
                 <h2 className="category-title">{category}</h2>
                 <p className="category-description">
-                  { categoryDescriptions[category] || "Explore our premium product range" }
+                  {categoryDescriptions[category] || "Explore our premium product range"}
                 </p>
                 <div className="products-grid">
                   {categoryProducts.map((product) => (
@@ -190,28 +190,10 @@ const Products = () => {
             ))}
           </div>
         ) : (
-          // Show filtered products in a single grid
           <div className="products-grid">
             {filteredAndSortedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-          </div>
-        )}
-
-        {/* No products message */}
-        {totalProducts === 0 && (
-          <div className="no-products">
-            <h3>No products found</h3>
-            <p>Try selecting a different category or adjusting your filters.</p>
-            <button 
-              className="reset-filters"
-              onClick={() => {
-                setSelectedCategory("All");
-                setSortOption("default");
-              }}
-            >
-              Reset Filters
-            </button>
           </div>
         )}
       </div>

@@ -4,14 +4,17 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { CartProvider } from "./context/CartContext";
-import { AuthProvider } from "./context/AuthContext"; // ← ADD THIS IMPORT
+import { AuthProvider } from "./context/AuthContext";
+import { ProductProvider } from "./context/ProductContext";
 import "./styles/style.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <AuthProvider> {/* ← WRAP WITH AuthProvider */}
+    <AuthProvider>
       <CartProvider>
-        <App />
+        <ProductProvider>
+          <App />
+        </ProductProvider>
       </CartProvider>
     </AuthProvider>
   </BrowserRouter>

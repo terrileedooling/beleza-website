@@ -16,8 +16,7 @@ export default function ProtectedRoute({ children }) {
     return <Navigate to="/login" replace />;
   }
 
-  // Admin check - replace with your admin email
-  const adminEmails = import.meta.env.VITE_ADMIN_EMAILS
+  const adminEmails = import.meta.env.VITE_ADMIN_EMAIL
   .split(",")
   .map(email => email.trim());
 
