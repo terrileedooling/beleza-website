@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/contact.css";
 
-const heroImage = new URL("../assets/site-images/products_header.jpg", import.meta.url).href;
+const heroImage = new URL("../../public/banner1.png", import.meta.url).href;
 
 const Contact = () => {
   const contactInfo = [
