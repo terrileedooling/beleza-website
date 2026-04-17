@@ -134,22 +134,61 @@ export const CartProvider = ({ children }) => {
   };
 
   // EFT Checkout
-  const checkoutEFT = async (customer) => {
-    if (cart.length === 0) return alert("Your cart is empty!");
-    
+  const checkoutEFT = async (customerDetails) => {
     try {
-      // Save order with paymentStatus = "unpaid" (waiting for EFT)
-      const orderId = await saveOrder(customer, "EFT", "unpaid", "pending");
-      
-      // Clear cart
+      // Create order in Firestore - USE 'cart' not 'cartItems'
+      const orderData = {
+        ...customerDetails,
+        items: cart,  // FIXED: was 'cartItems', should be 'cart'
+        subtotal: cartTotal,
+        deliveryFee: DELIVERY_FEE,
+        finalTotal: finalTotal,
+        paymentMethod: 'eft',
+        status: 'pending_payment',
+        createdAt: new Date().toISOString(),
+        orderNumber: `ORD-${Date.now()}`
+      };
+
+      const orderRef = await addDoc(collection(db, "orders"), orderData);
+      const orderId = orderRef.id;
+
+      // Send WhatsApp message with bank details
+      const whatsappMessage = `*BELEZA Professional - EFT Payment Instructions*
+
+                                Order #: ${orderId.slice(0, 8)}
+                                Amount Due: R${finalTotal.toFixed(2)}
+                                  
+                                *Bank Transfer Details:*
+                                Bank: First National Bank (FNB)
+                                Account Name: Beleza Professional Pty Ltd
+                                Account Number: 628 789 456 12
+                                Branch Code: 250655
+                                Reference: BELEZA-${orderId.slice(0, 8)}
+                                  
+                                *Steps to complete payment:*
+                                1. Transfer the exact amount using above details
+                                2. Use the reference number exactly as shown
+                                3. Send proof of payment to orders@beleza.co.za
+                                4. Your order will be processed within 24 hours
+                                  
+                                Thank you for shopping with Beleza Professional!`;
+
+      // Encode message for URL
+      const encodedMessage = encodeURIComponent(whatsappMessage);
+      const phoneNumber = customerDetails.phone.replace(/\D/g, ''); // Remove non-digits
+
+      // Clear cart BEFORE redirecting
       clearCart();
-      
+
+      // Open WhatsApp in new tab
+      window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+
       // Redirect to EFT instructions page
       window.location.href = `/eft-instructions/${orderId}`;
-      
-    } catch (err) {
-      console.error("EFT checkout failed:", err);
-      alert("Failed to process order. Please try again.");
+
+    } catch (error) {
+      console.error("EFT checkout error:", error);
+      throw error;
     }
   };
 

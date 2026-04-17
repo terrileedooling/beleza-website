@@ -154,39 +154,64 @@
 
 .checkout-btn {
     width: 100%;
-    padding: 18px;
-    background: var(--primary);
+    padding: 16px;
+    background: var(--primary, #00897b);
     color: white;
     border: none;
-    border-radius: 30px;
-    font-family: "Poppins", sans-serif;
-    font-size: 1.1rem;
+    border-radius: 12px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 137, 123, 0.25);
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    font-family: "Poppins", sans-serif;
 }
 
-.checkout-btn:hover {
-    background: var(--primary-dark);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 121, 107, 0.3);
+.checkout-btn:hover:not(:disabled) {
+    background: var(--primary-dark, #00695c);  /* Darker on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 137, 123, 0.3);
 }
 
-.checkout-btn:active {
-    transform: translateY(-1px);
+.checkout-btn:active:not(:disabled) {
+    transform: translateY(0);
 }
 
 .checkout-btn:disabled {
-    background: var(--border-color);
-    color: var(--text-light);
+    opacity: 0.7;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    background: var(--border-color, #ccc);
+}
+
+.checkout-btn.loading {
+    background: var(--primary-dark, #00695c);
+    position: relative;
+    color: transparent;
+}
+
+.checkout-btn.loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 3px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Required field indicators */

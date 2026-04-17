@@ -1,16 +1,41 @@
-# React + Vite
+# Beleza Professional - E-commerce Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-featured e-commerce platform for Beleza Professional, specializing in premium hair care, sea moss, and wellness products.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Customer Features
+- **Product Browsing**: Filter by category, search products, view detailed descriptions
+- **Shopping Cart**: Add/remove items, update quantities, persistent cart storage
+- **Checkout Process**: Secure checkout with multiple payment options
+- **Payment Methods**:
+  - PayFast (Credit Card)
+  - EFT (Bank Transfer) with WhatsApp instructions
+  - PayJustNow (Coming Soon)
+  - PayFlex (Coming Soon)
+- **Order Management**: Automatic order creation with dual status tracking
+- **Responsive Design**: Fully mobile-responsive interface
 
-## React Compiler
+### Admin Features
+- **Product Management**: Add, edit, delete products with image compression
+- **Order Management**: View and update order statuses
+- **Payment Status Tracking**: Mark orders as paid/unpaid/refunded
+- **Fulfillment Tracking**: Update order processing, shipping, delivery status
+- **Payment Method Toggle**: Enable/disable payment methods
+- **Dashboard Analytics**: View orders by status and payment type
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+### Frontend
+- **React 18** - UI framework
+- **React Router DOM** - Navigation and routing
+- **CSS3** - Custom styling with CSS variables
+- **Font Awesome** - Icons
+- **Slick Carousel** - Product carousels
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Backend & Services
+- **Firebase Firestore** - Database for orders and products
+- **Firebase Storage** - Product image storage
+- **Firebase Auth** - Admin authentication
+- **PayFast API** - Payment processing (Sandbox/Production)
+

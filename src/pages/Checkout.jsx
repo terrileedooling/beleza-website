@@ -303,7 +303,7 @@ const Checkout = () => {
                 <div>
                   <strong>How EFT payments work:</strong>
                   <ul>
-                    <li>You'll receive an email with our bank details</li>
+                    <li>You'll receive the bank details via WhatsApp</li>
                     <li>Make a transfer using the provided reference number</li>
                     <li>Email proof of payment to orders@beleza.co.za</li>
                     <li>Your order will be processed once payment is confirmed</li>
