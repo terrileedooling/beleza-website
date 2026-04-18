@@ -67,7 +67,7 @@ Reference: ${orderRef}
 2️⃣ Use the bank details above to make a transfer
 3️⃣ Enter the reference number EXACTLY as shown
 4️⃣ Pay the exact amount of ${amount}
-5️⃣ Send proof of payment to orders@beleza.co.za
+5️⃣ Send your proof of payment via WhatsApp to +27 72 114 3123
 6️⃣ Your order will be processed within 24 hours of payment confirmation
 
 *ORDER SUMMARY*
@@ -171,34 +171,12 @@ Amount: R${order.finalTotal?.toFixed(2)}`;
       </div>
 
       <div className="eft-content">
-        {/* WhatsApp Card - Prominent at top */}
-        <div className="whatsapp-card">
-          <i className="fab fa-whatsapp"></i>
-          <div className="whatsapp-content">
-            <h3>Get Instructions on WhatsApp</h3>
-            <p>We've sent the payment instructions to your WhatsApp. Check your messages or click below to receive them now.</p>
-            <button 
-              className={`whatsapp-btn ${whatsappSent ? 'sent' : ''}`}
-              onClick={sendToWhatsApp}
-            >
-              {whatsappSent ? (
-                <>
-                  <i className="fas fa-check"></i> Instructions Sent!
-                </>
-              ) : (
-                <>
-                  <i className="fab fa-whatsapp"></i> Send to WhatsApp
-                </>
-              )}
-            </button>
-          </div>
-        </div>
 
         <div className="bank-details-card">
           <h2><i className="fas fa-university"></i> Bank Transfer Details</h2>
-          <button className="copy-all-btn" onClick={copyBankDetails}>
+          {/* <button className="copy-all-btn" onClick={copyBankDetails}>
             <i className="fas fa-copy"></i> Copy All Details
-          </button>
+          </button> */}
           <div className="bank-details">
             <div className="detail-row">
               <span className="label">Bank:</span>
@@ -241,13 +219,9 @@ Amount: R${order.finalTotal?.toFixed(2)}`;
             <li>Use the bank details above to make a transfer</li>
             <li>Enter the reference number exactly as shown</li>
             <li>Pay the exact amount of <strong>R{order.finalTotal?.toFixed(2)}</strong></li>
-            <li>Send your proof of payment to <strong>orders@beleza.co.za</strong></li>
+            <li>Send your proof of payment via <strong>WhatsApp to +27 72 114 3123</strong></li>
             <li>Your order will be processed within 24 hours of payment confirmation</li>
           </ol>
-          <div className="proof-tip">
-            <i className="fas fa-lightbulb"></i>
-            <span>Tip: Include your order number in the proof of payment email subject line</span>
-          </div>
         </div>
 
         <div className="order-summary-card">
@@ -274,9 +248,8 @@ Amount: R${order.finalTotal?.toFixed(2)}`;
               <span>R{order.finalTotal?.toFixed(2)}</span>
             </div>
           </div>
-        </div>
 
-        {order.address && (
+          {order.address && (
           <div className="delivery-card">
             <h3><i className="fas fa-truck"></i> Delivery Address</h3>
             <p>
@@ -286,8 +259,9 @@ Amount: R${order.finalTotal?.toFixed(2)}`;
             </p>
           </div>
         )}
+        </div>
 
-        <div className="contact-support">
+        {/* <div className="contact-support">
           <i className="fas fa-headset"></i>
           <div className="support-content">
             <p>Need help with your payment?</p>
@@ -300,15 +274,15 @@ Amount: R${order.finalTotal?.toFixed(2)}`;
               </a>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="action-buttons">
           <Link to="/" className="continue-shopping">
             <i className="fas fa-arrow-left"></i> Continue Shopping
           </Link>
-          <button onClick={sendToWhatsApp} className="resend-whatsapp">
+          {/* <button onClick={sendToWhatsApp} className="resend-whatsapp">
             <i className="fab fa-whatsapp"></i> Resend Instructions
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

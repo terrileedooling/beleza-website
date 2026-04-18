@@ -1,3 +1,4 @@
+// /* @refresh skip */
 import { createContext, useContext, useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -23,7 +24,7 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  
+
   const parsePrice = (priceString) => {
     if (typeof priceString === "number") return priceString;
     return parseFloat(priceString.replace(/[R,\s]/g, ""));
@@ -163,7 +164,7 @@ export const CartProvider = ({ children }) => {
                                 *Steps to complete payment:*
                                 1. Transfer the exact amount using above details
                                 2. Use the reference number exactly as shown
-                                3. Send proof of payment to orders@beleza.co.za
+                                3. Send proof of payment via whatsapp to 072 114 3123
                                 4. Your order will be processed within 24 hours
 
                                 Thank you for shopping with Beleza Professional!`;
