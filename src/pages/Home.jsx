@@ -85,7 +85,7 @@ export default function Home() {
 
       {/* LEFT CONTENT */}
       <div className="hero-text">
-        <span className="hero-subtitle">NATURAL • CLEAN • EFFECTIVE</span>
+        <span className="hero-subtitle">NATURAL • QUALITY • EFFECTIVE</span>
 
         <h1>
           Reconnect with your <br/>

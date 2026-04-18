@@ -7,7 +7,6 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const DELIVERY_FEE = 150;
 
-  // Payment methods configuration (can be moved to admin settings later)
   const [paymentMethods, setPaymentMethods] = useState({
     payfast: true,
     eft: true,
@@ -15,18 +14,16 @@ export const CartProvider = ({ children }) => {
     payflex: false      // Set to true when approved
   });
 
-  // Load cart from localStorage
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Sync to localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // Parse price safely
+  
   const parsePrice = (priceString) => {
     if (typeof priceString === "number") return priceString;
     return parseFloat(priceString.replace(/[R,\s]/g, ""));
@@ -73,7 +70,6 @@ export const CartProvider = ({ children }) => {
         subtotal: cartTotal,
         deliveryFee: DELIVERY_FEE,
         finalTotal,
-        // Dual status system
         paymentStatus: paymentStatus,     // unpaid, paid, refunded, failed
         fulfillmentStatus: fulfillmentStatus, // pending, processing, shipped, delivered, cancelled
         paymentMethod: paymentMethod,
@@ -125,7 +121,7 @@ export const CartProvider = ({ children }) => {
       clearCart();
       
       // Redirect to PayFast
-      window.location.href = `https://sandbox.payfast.co.za/eng/process?${query}`;
+      window.location.href = ` ${import.meta.env.VITE_PAYFAST_URL}${query}`;
   
     } catch (err) {
       console.error("Checkout failed:", err);
@@ -136,10 +132,9 @@ export const CartProvider = ({ children }) => {
   // EFT Checkout
   const checkoutEFT = async (customerDetails) => {
     try {
-      // Create order in Firestore - USE 'cart' not 'cartItems'
       const orderData = {
         ...customerDetails,
-        items: cart,  // FIXED: was 'cartItems', should be 'cart'
+        items: cart,
         subtotal: cartTotal,
         deliveryFee: DELIVERY_FEE,
         finalTotal: finalTotal,
@@ -157,20 +152,20 @@ export const CartProvider = ({ children }) => {
 
                                 Order #: ${orderId.slice(0, 8)}
                                 Amount Due: R${finalTotal.toFixed(2)}
-                                  
+
                                 *Bank Transfer Details:*
                                 Bank: First National Bank (FNB)
                                 Account Name: Beleza Professional Pty Ltd
                                 Account Number: 628 789 456 12
                                 Branch Code: 250655
                                 Reference: BELEZA-${orderId.slice(0, 8)}
-                                  
+
                                 *Steps to complete payment:*
                                 1. Transfer the exact amount using above details
                                 2. Use the reference number exactly as shown
                                 3. Send proof of payment to orders@beleza.co.za
                                 4. Your order will be processed within 24 hours
-                                  
+
                                 Thank you for shopping with Beleza Professional!`;
 
       // Encode message for URL
