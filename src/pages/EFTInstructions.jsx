@@ -8,7 +8,6 @@ const EFTInstructions = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [whatsappSent, setWhatsappSent] = useState(false);
   const [copySuccess, setCopySuccess] = useState("");
 
   useEffect(() => {
@@ -19,10 +18,6 @@ const EFTInstructions = () => {
         if (orderSnap.exists()) {
           const orderData = { id: orderSnap.id, ...orderSnap.data() };
           setOrder(orderData);
-          
-          // Auto-send WhatsApp message when order loads (optional)
-          // Uncomment if you want automatic sending
-          // setTimeout(() => sendToWhatsApp(orderData), 1000);
         }
       } catch (error) {
         console.error("Error fetching order:", error);
@@ -36,83 +31,6 @@ const EFTInstructions = () => {
     }
   }, [orderId]);
 
-  const generateWhatsAppMessage = (orderData) => {
-    const orderRef = `BELEZA-${orderData.id.slice(0, 8)}`;
-    const amount = `R${orderData.finalTotal?.toFixed(2)}`;
-    const customerName = orderData.name || "Valued Customer";
-    
-    return `*BELEZA PROFESSIONAL - EFT PAYMENT INSTRUCTIONS* 🏦
-
-Hi ${customerName},
-
-Thank you for shopping with Beleza Professional!
-
-*ORDER DETAILS*
-━━━━━━━━━━━━━━━━━━━
-Order #: ${orderData.id.slice(0, 8)}
-Amount Due: ${amount}
-Status: Pending Payment
-
-*BANK TRANSFER DETAILS*
-━━━━━━━━━━━━━━━━━━━
-Bank: First National Bank (FNB)
-Account Name: Beleza Professional Pty Ltd
-Account Number: 628 789 456 12
-Branch Code: 250655
-Reference: ${orderRef}
-
-*HOW TO COMPLETE YOUR PAYMENT*
-━━━━━━━━━━━━━━━━━━━
-1️⃣ Log into your online banking or visit your nearest branch
-2️⃣ Use the bank details above to make a transfer
-3️⃣ Enter the reference number EXACTLY as shown
-4️⃣ Pay the exact amount of ${amount}
-5️⃣ Send your proof of payment via WhatsApp to +27 72 114 3123
-6️⃣ Your order will be processed within 24 hours of payment confirmation
-
-*ORDER SUMMARY*
-━━━━━━━━━━━━━━━━━━━
-${orderData.items?.map(item => `📦 ${item.name} x ${item.quantity} = R${(item.price * item.quantity).toFixed(2)}`).join('\n')}
-
-Subtotal: R${orderData.subtotal?.toFixed(2)}
-Delivery: R${orderData.deliveryFee?.toFixed(2)}
-Total: ${amount}
-
-*DELIVERY ADDRESS*
-━━━━━━━━━━━━━━━━━━━
-${orderData.address || "Not provided"}
-${orderData.suburb ? orderData.suburb + ", " : ""}${orderData.city || ""}
-${orderData.postal ? orderData.postal : ""}
-
-*NEED HELP?*
-━━━━━━━━━━━━━━━━━━━
-📞 Call/WhatsApp: +27 72 114 3123
-📧 Email: orders@beleza.co.za
-
-Thank you for choosing Beleza Professional! 💫`;
-  };
-
-  const sendToWhatsApp = () => {
-    if (!order) return;
-    
-    const phoneNumber = order.phone?.replace(/\D/g, '');
-    
-    if (!phoneNumber || phoneNumber.length !== 10) {
-      alert("Please ensure your phone number is correct in the order details");
-      return;
-    }
-    
-    const message = generateWhatsAppMessage(order);
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-    
-    window.open(whatsappUrl, '_blank');
-    setWhatsappSent(true);
-    
-    // Reset the sent status after 3 seconds
-    setTimeout(() => setWhatsappSent(false), 3000);
-  };
-
   const copyReference = async () => {
     const reference = `BELEZA-${order.id.slice(0, 8)}`;
     try {
@@ -123,18 +41,6 @@ Thank you for choosing Beleza Professional! 💫`;
       setCopySuccess("Failed to copy");
       setTimeout(() => setCopySuccess(""), 2000);
     }
-  };
-
-  const copyBankDetails = () => {
-    const bankDetails = `Bank: First National Bank (FNB)
-Account Name: Beleza Professional Pty Ltd
-Account Number: 628 789 456 12
-Branch Code: 250655
-Reference: BELEZA-${order.id.slice(0, 8)}
-Amount: R${order.finalTotal?.toFixed(2)}`;
-    
-    navigator.clipboard.writeText(bankDetails);
-    alert("Bank details copied to clipboard!");
   };
 
   if (loading) {
@@ -171,12 +77,8 @@ Amount: R${order.finalTotal?.toFixed(2)}`;
       </div>
 
       <div className="eft-content">
-
         <div className="bank-details-card">
           <h2><i className="fas fa-university"></i> Bank Transfer Details</h2>
-          {/* <button className="copy-all-btn" onClick={copyBankDetails}>
-            <i className="fas fa-copy"></i> Copy All Details
-          </button> */}
           <div className="bank-details">
             <div className="detail-row">
               <span className="label">Bank:</span>
@@ -250,39 +152,21 @@ Amount: R${order.finalTotal?.toFixed(2)}`;
           </div>
 
           {order.address && (
-          <div className="delivery-card">
-            <h3><i className="fas fa-truck"></i> Delivery Address</h3>
-            <p>
-              {order.address}<br/>
-              {order.suburb && `${order.suburb}, `}{order.city && `${order.city}`}<br/>
-              {order.postal && `Postal Code: ${order.postal}`}
-            </p>
-          </div>
-        )}
-        </div>
-
-        {/* <div className="contact-support">
-          <i className="fas fa-headset"></i>
-          <div className="support-content">
-            <p>Need help with your payment?</p>
-            <div className="support-links">
-              <a href="https://wa.me/27721143123" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-whatsapp"></i> WhatsApp Support
-              </a>
-              <a href="mailto:orders@beleza.co.za">
-                <i className="fas fa-envelope"></i> Email Support
-              </a>
+            <div className="delivery-card">
+              <h3><i className="fas fa-truck"></i> Delivery Address</h3>
+              <p>
+                {order.address}<br/>
+                {order.suburb && `${order.suburb}, `}{order.city && `${order.city}`}<br/>
+                {order.postal && `Postal Code: ${order.postal}`}
+              </p>
             </div>
-          </div>
-        </div> */}
+          )}
+        </div>
 
         <div className="action-buttons">
           <Link to="/" className="continue-shopping">
             <i className="fas fa-arrow-left"></i> Continue Shopping
           </Link>
-          {/* <button onClick={sendToWhatsApp} className="resend-whatsapp">
-            <i className="fab fa-whatsapp"></i> Resend Instructions
-          </button> */}
         </div>
       </div>
     </div>

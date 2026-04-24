@@ -107,7 +107,7 @@ const Checkout = () => {
 
   const handlePayment = async () => {
     if (!validateForm()) {
-      alert("Please fix the errors in the form");
+      alert("Please fill in the required information");
       return;
     }
     

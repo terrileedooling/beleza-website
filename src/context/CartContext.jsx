@@ -99,8 +99,6 @@ export const CartProvider = ({ children }) => {
     const itemName = `Order from BELEZA`;
   
     try {
-      // Save order with paymentStatus = "unpaid" initially
-      // Success page will update to "paid"
       const orderId = await saveOrder(customer, "PayFast", "unpaid", "pending");
   
       // Build PayFast query
@@ -122,7 +120,7 @@ export const CartProvider = ({ children }) => {
       clearCart();
       
       // Redirect to PayFast
-      window.location.href = ` ${import.meta.env.VITE_PAYFAST_URL}${query}`;
+      window.location.href = `${import.meta.env.VITE_PAYFAST_URL}${query}`;
   
     } catch (err) {
       console.error("Checkout failed:", err);
@@ -130,7 +128,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // EFT Checkout
+  // EFT Checkout - WhatsApp sending removed
   const checkoutEFT = async (customerDetails) => {
     try {
       const orderData = {
@@ -140,46 +138,19 @@ export const CartProvider = ({ children }) => {
         deliveryFee: DELIVERY_FEE,
         finalTotal: finalTotal,
         paymentMethod: 'eft',
-        status: 'pending_payment',
+        paymentStatus: 'unpaid',
+        fulfillmentStatus: 'pending',
         createdAt: new Date().toISOString(),
-        orderNumber: `ORD-${Date.now()}`
+        updatedAt: new Date().toISOString()
       };
 
       const orderRef = await addDoc(collection(db, "orders"), orderData);
       const orderId = orderRef.id;
 
-      // Send WhatsApp message with bank details
-      const whatsappMessage = `*BELEZA Professional - EFT Payment Instructions*
-
-                                Order #: ${orderId.slice(0, 8)}
-                                Amount Due: R${finalTotal.toFixed(2)}
-
-                                *Bank Transfer Details:*
-                                Bank: First National Bank (FNB)
-                                Account Name: Beleza Professional Pty Ltd
-                                Account Number: 628 789 456 12
-                                Branch Code: 250655
-                                Reference: BELEZA-${orderId.slice(0, 8)}
-
-                                *Steps to complete payment:*
-                                1. Transfer the exact amount using above details
-                                2. Use the reference number exactly as shown
-                                3. Send proof of payment via whatsapp to 072 114 3123
-                                4. Your order will be processed within 24 hours
-
-                                Thank you for shopping with Beleza Professional!`;
-
-      // Encode message for URL
-      const encodedMessage = encodeURIComponent(whatsappMessage);
-      const phoneNumber = customerDetails.phone.replace(/\D/g, ''); // Remove non-digits
-
       // Clear cart BEFORE redirecting
       clearCart();
 
-      // Open WhatsApp in new tab
-      window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
-
-      // Redirect to EFT instructions page
+      // Redirect to EFT instructions page only (no WhatsApp)
       window.location.href = `/eft-instructions/${orderId}`;
 
     } catch (error) {
