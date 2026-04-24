@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/about.css";
 
-const heroImage = new URL("../../public/banner1.png", import.meta.url).href;
+const heroImage = new URL("/banner1.png", import.meta.url).href;
 const missionImage = new URL("../assets/site-images/about.jpg", import.meta.url).href;
 
 const About = () => {
