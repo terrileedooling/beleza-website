@@ -6,7 +6,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const DELIVERY_FEE = 150;
+  const DELIVERY_FEE = 0;
 
   const [paymentMethods, setPaymentMethods] = useState({
     payfast: true,
@@ -128,33 +128,34 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // EFT Checkout - WhatsApp sending removed
+  // EFT Checkout 
   const checkoutEFT = async (customerDetails) => {
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
     try {
-      const orderData = {
-        ...customerDetails,
-        items: cart,
-        subtotal: cartTotal,
-        deliveryFee: DELIVERY_FEE,
-        finalTotal: finalTotal,
-        paymentMethod: 'eft',
-        paymentStatus: 'unpaid',
-        fulfillmentStatus: 'pending',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
+      // Validate required fields
+      if (!customerDetails.name || !customerDetails.email || !customerDetails.phone || !customerDetails.address) {
+        alert("Please fill in all required fields");
+        return;
+      }
 
-      const orderRef = await addDoc(collection(db, "orders"), orderData);
-      const orderId = orderRef.id;
+      // Use the same saveOrder function that PayFast uses
+      const orderId = await saveOrder(customerDetails, "EFT", "unpaid", "pending");
 
-      // Clear cart BEFORE redirecting
+      console.log("EFT Order created:", orderId);
+
+      // Clear cart
       clearCart();
 
-      // Redirect to EFT instructions page only (no WhatsApp)
+      // Redirect to EFT instructions page
       window.location.href = `/eft-instructions/${orderId}`;
 
     } catch (error) {
       console.error("EFT checkout error:", error);
+      alert("Failed to process order. Please try again.");
       throw error;
     }
   };
