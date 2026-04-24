@@ -111,6 +111,7 @@ export const CartProvider = ({ children }) => {
       query += `&amount=${finalTotal.toFixed(2)}`;
       query += `&name_first=${encodeURIComponent(customer.name.split(' ')[0] || '')}`;
       query += `&email_address=${encodeURIComponent(customer.email)}`;
+      query += `&payment_method=cc`;
       
       // Store order ID as backup
       localStorage.setItem('lastOrderId', orderId);
