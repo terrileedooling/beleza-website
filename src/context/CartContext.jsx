@@ -1,3 +1,4 @@
+// /* @refresh skip */
 import { createContext, useContext, useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -7,7 +8,6 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const DELIVERY_FEE = 150;
 
-  // Payment methods configuration (can be moved to admin settings later)
   const [paymentMethods, setPaymentMethods] = useState({
     payfast: true,
     eft: true,
@@ -15,18 +15,16 @@ export const CartProvider = ({ children }) => {
     payflex: false      // Set to true when approved
   });
 
-  // Load cart from localStorage
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Sync to localStorage
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // Parse price safely
+
   const parsePrice = (priceString) => {
     if (typeof priceString === "number") return priceString;
     return parseFloat(priceString.replace(/[R,\s]/g, ""));
@@ -73,7 +71,6 @@ export const CartProvider = ({ children }) => {
         subtotal: cartTotal,
         deliveryFee: DELIVERY_FEE,
         finalTotal,
-        // Dual status system
         paymentStatus: paymentStatus,     // unpaid, paid, refunded, failed
         fulfillmentStatus: fulfillmentStatus, // pending, processing, shipped, delivered, cancelled
         paymentMethod: paymentMethod,
@@ -102,8 +99,6 @@ export const CartProvider = ({ children }) => {
     const itemName = `Order from BELEZA`;
   
     try {
-      // Save order with paymentStatus = "unpaid" initially
-      // Success page will update to "paid"
       const orderId = await saveOrder(customer, "PayFast", "unpaid", "pending");
   
       // Build PayFast query
@@ -125,7 +120,7 @@ export const CartProvider = ({ children }) => {
       clearCart();
       
       // Redirect to PayFast
-      window.location.href = `https://sandbox.payfast.co.za/eng/process?${query}`;
+      window.location.href = `${import.meta.env.VITE_PAYFAST_URL}${query}`;
   
     } catch (err) {
       console.error("Checkout failed:", err);
@@ -133,23 +128,34 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // EFT Checkout
-  const checkoutEFT = async (customer) => {
-    if (cart.length === 0) return alert("Your cart is empty!");
-    
+  // EFT Checkout - WhatsApp sending removed
+  const checkoutEFT = async (customerDetails) => {
     try {
-      // Save order with paymentStatus = "unpaid" (waiting for EFT)
-      const orderId = await saveOrder(customer, "EFT", "unpaid", "pending");
-      
-      // Clear cart
+      const orderData = {
+        ...customerDetails,
+        items: cart,
+        subtotal: cartTotal,
+        deliveryFee: DELIVERY_FEE,
+        finalTotal: finalTotal,
+        paymentMethod: 'eft',
+        paymentStatus: 'unpaid',
+        fulfillmentStatus: 'pending',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const orderRef = await addDoc(collection(db, "orders"), orderData);
+      const orderId = orderRef.id;
+
+      // Clear cart BEFORE redirecting
       clearCart();
-      
-      // Redirect to EFT instructions page
+
+      // Redirect to EFT instructions page only (no WhatsApp)
       window.location.href = `/eft-instructions/${orderId}`;
-      
-    } catch (err) {
-      console.error("EFT checkout failed:", err);
-      alert("Failed to process order. Please try again.");
+
+    } catch (error) {
+      console.error("EFT checkout error:", error);
+      throw error;
     }
   };
 

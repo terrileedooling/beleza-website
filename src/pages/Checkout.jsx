@@ -28,7 +28,6 @@ const Checkout = () => {
     postal: "",
   });
 
-  // Get available payment methods (PayJustNow and PayFlex will be hidden until enabled)
   const availablePaymentMethods = getAvailablePaymentMethods();
 
   const handleChange = (e) => {
@@ -108,7 +107,7 @@ const Checkout = () => {
 
   const handlePayment = async () => {
     if (!validateForm()) {
-      alert("Please fix the errors in the form");
+      alert("Please fill in the required information");
       return;
     }
     
@@ -155,7 +154,6 @@ const Checkout = () => {
       <h2>Checkout</h2>
 
       <div className="checkout-layout">
-        {/* LEFT - Delivery Details */}
         <div className="checkout-form">
           <h3>Delivery Details</h3>
           
@@ -254,8 +252,6 @@ const Checkout = () => {
             />
           </div>
         </div>
-
-        {/* RIGHT - Order Summary & Payment */}
         <div className="checkout-summary">
           <h3>Order Summary</h3>
           
@@ -299,20 +295,19 @@ const Checkout = () => {
             {/* EFT Information */}
             {selectedPaymentMethod === 'eft' && (
               <div className="payment-info eft-info">
-                <i className="fas fa-info-circle"></i>
                 <div>
                   <strong>How EFT payments work:</strong>
                   <ul>
-                    <li>You'll receive an email with our bank details</li>
+                    <li>You'll receive the bank details via WhatsApp</li>
                     <li>Make a transfer using the provided reference number</li>
-                    <li>Email proof of payment to orders@beleza.co.za</li>
+                    <li>Send proof of payment via <strong>WhatsApp to +27 72 114 3123</strong></li>
                     <li>Your order will be processed once payment is confirmed</li>
                   </ul>
                 </div>
               </div>
             )}
             
-            {/* PayJustNow Coming Soon (hidden until enabled in CartContext) */}
+            {/* PayJustNow */}
             {selectedPaymentMethod === 'payjustnow' && (
               <div className="payment-info coming-soon">
                 <i className="fas fa-clock"></i>
@@ -320,7 +315,7 @@ const Checkout = () => {
               </div>
             )}
             
-            {/* PayFlex Coming Soon (hidden until enabled in CartContext) */}
+            {/* PayFlex */}
             {selectedPaymentMethod === 'payflex' && (
               <div className="payment-info coming-soon">
                 <i className="fas fa-clock"></i>

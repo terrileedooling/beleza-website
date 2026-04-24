@@ -4,7 +4,7 @@ import { useProducts } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
 import "../styles/products.css";
 
-const heroImage = new URL("../assets/site-images/products_header.jpg", import.meta.url).href;
+const heroImage = new URL("../../public/banner1.png", import.meta.url).href;
 const categoryDescriptions = {
   Hair: "Professional hair treatments and styling tools.",
   Body: "Premium wildcrafted sea moss products and body care.",

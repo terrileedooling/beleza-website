@@ -8,6 +8,7 @@ const EFTInstructions = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copySuccess, setCopySuccess] = useState("");
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -15,7 +16,8 @@ const EFTInstructions = () => {
         const orderRef = doc(db, "orders", orderId);
         const orderSnap = await getDoc(orderRef);
         if (orderSnap.exists()) {
-          setOrder({ id: orderSnap.id, ...orderSnap.data() });
+          const orderData = { id: orderSnap.id, ...orderSnap.data() };
+          setOrder(orderData);
         }
       } catch (error) {
         console.error("Error fetching order:", error);
@@ -29,6 +31,18 @@ const EFTInstructions = () => {
     }
   }, [orderId]);
 
+  const copyReference = async () => {
+    const reference = `BELEZA-${order.id.slice(0, 8)}`;
+    try {
+      await navigator.clipboard.writeText(reference);
+      setCopySuccess("Copied!");
+      setTimeout(() => setCopySuccess(""), 2000);
+    } catch (err) {
+      setCopySuccess("Failed to copy");
+      setTimeout(() => setCopySuccess(""), 2000);
+    }
+  };
+
   if (loading) {
     return (
       <div className="eft-loading">
@@ -41,11 +55,15 @@ const EFTInstructions = () => {
   if (!order) {
     return (
       <div className="eft-error">
+        <i className="fas fa-exclamation-triangle"></i>
         <h1>Order Not Found</h1>
+        <p>We couldn't find your order. Please check your order ID or contact support.</p>
         <Link to="/" className="home-link">Return to Home</Link>
       </div>
     );
   }
+
+  const referenceNumber = `BELEZA-${order.id.slice(0, 8)}`;
 
   return (
     <div className="eft-instructions-container">
@@ -53,6 +71,9 @@ const EFTInstructions = () => {
         <i className="fas fa-check-circle"></i>
         <h1>Order Received!</h1>
         <p>Order #{order.id.slice(0, 8)}</p>
+        <div className="header-badges">
+          <span className="badge pending">Pending Payment</span>
+        </div>
       </div>
 
       <div className="eft-content">
@@ -75,17 +96,15 @@ const EFTInstructions = () => {
               <span className="label">Branch Code:</span>
               <span className="value">250655</span>
             </div>
-            <div className="detail-row">
+            <div className="detail-row reference-row">
               <span className="label">Reference:</span>
-              <span className="value reference">BELEZA-{order.id.slice(0, 8)}</span>
+              <span className="value reference">{referenceNumber}</span>
               <button 
                 className="copy-btn"
-                onClick={() => {
-                  navigator.clipboard.writeText(`BELEZA-${order.id.slice(0, 8)}`);
-                  alert("Reference copied!");
-                }}
+                onClick={copyReference}
               >
                 <i className="fas fa-copy"></i>
+                {copySuccess && <span className="copy-feedback">{copySuccess}</span>}
               </button>
             </div>
           </div>
@@ -102,37 +121,53 @@ const EFTInstructions = () => {
             <li>Use the bank details above to make a transfer</li>
             <li>Enter the reference number exactly as shown</li>
             <li>Pay the exact amount of <strong>R{order.finalTotal?.toFixed(2)}</strong></li>
-            <li>Email your proof of payment to <strong>orders@beleza.co.za</strong></li>
+            <li>Send your proof of payment via <strong>WhatsApp to +27 72 114 3123</strong></li>
             <li>Your order will be processed within 24 hours of payment confirmation</li>
           </ol>
         </div>
 
         <div className="order-summary-card">
           <h3><i className="fas fa-shopping-cart"></i> Order Summary</h3>
-          {order.items?.map((item, idx) => (
-            <div key={idx} className="order-item">
-              <span>{item.name} x {item.quantity}</span>
-              <span>R{(item.price * item.quantity).toFixed(2)}</span>
-            </div>
-          ))}
-          <div className="order-totals">
-            <div>Subtotal:</div>
-            <div>R{order.subtotal?.toFixed(2)}</div>
-            <div>Delivery:</div>
-            <div>R{order.deliveryFee?.toFixed(2)}</div>
-            <div className="total">Total:</div>
-            <div className="total">R{order.finalTotal?.toFixed(2)}</div>
+          <div className="order-items">
+            {order.items?.map((item, idx) => (
+              <div key={idx} className="order-item">
+                <span>{item.name} x {item.quantity}</span>
+                <span>R{(item.price * item.quantity).toFixed(2)}</span>
+              </div>
+            ))}
           </div>
+          <div className="order-totals">
+            <div className="total-row">
+              <span>Subtotal:</span>
+              <span>R{order.subtotal?.toFixed(2)}</span>
+            </div>
+            <div className="total-row">
+              <span>Delivery Fee:</span>
+              <span>R{order.deliveryFee?.toFixed(2)}</span>
+            </div>
+            <div className="total-row grand-total">
+              <span>Total Amount:</span>
+              <span>R{order.finalTotal?.toFixed(2)}</span>
+            </div>
+          </div>
+
+          {order.address && (
+            <div className="delivery-card">
+              <h3><i className="fas fa-truck"></i> Delivery Address</h3>
+              <p>
+                {order.address}<br/>
+                {order.suburb && `${order.suburb}, `}{order.city && `${order.city}`}<br/>
+                {order.postal && `Postal Code: ${order.postal}`}
+              </p>
+            </div>
+          )}
         </div>
 
-        <div className="contact-support">
-          <i className="fas fa-headset"></i>
-          <p>Need help? Contact us on WhatsApp: <a href="https://wa.me/27721143123">+27 72 114 3123</a></p>
+        <div className="action-buttons">
+          <Link to="/" className="continue-shopping">
+            <i className="fas fa-arrow-left"></i> Continue Shopping
+          </Link>
         </div>
-
-        <Link to="/" className="continue-shopping">
-          Continue Shopping
-        </Link>
       </div>
     </div>
   );

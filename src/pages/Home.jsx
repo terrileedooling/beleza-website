@@ -77,13 +77,49 @@ export default function Home() {
 
   return (
     <div className="home-container">
-      <section className="hero">
+
+      <section className="hero banner-hero">
+        <div className="hero-container-inner">
+
+    <div className="hero-grid">
+
+      {/* LEFT CONTENT */}
+      <div className="hero-text">
+        <span className="hero-subtitle">NATURAL • QUALITY • EFFECTIVE</span>
+
+        <h1>
+          Reconnect with your <br/>
+          <span> Natural Radiance</span>
+        </h1>
+
+        <p>
+          Premium hair care and wellness products crafted to nourish your body 
+          and enhance your everyday confidence.
+        </p>
+
+        <div className="hero-actions">
+          <button className="primary-btn" onClick={handleShopNow}>
+            Shop Now
+          </button>
+          <button className="secondary-btn" onClick={() => navigate("/products")}>
+            Explore Products
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+        </div>
+      </section>
+
+      
+      {/* <section className="hero">
         <div className="hero-content">
           <h1>Reconnect with your natural radiance</h1>
           <p>Discover premium hair care and sea moss products for your wellness journey</p>
           <button className="primary-btn" onClick={handleShopNow}>Shop Now</button>
         </div>
-      </section>
+      </section> */}
 
       <section className="categories">
         <h2 className="section-title">Shop By Category</h2>

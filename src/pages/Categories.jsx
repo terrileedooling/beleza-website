@@ -5,7 +5,7 @@ import "../styles/categories.css";
 
 const Categories = () => {
   const navigate = useNavigate();
-  const heroImage = new URL("../assets/site-images/products_header.jpg", import.meta.url).href;
+  const heroImage = new URL("../../public/banner1.png", import.meta.url).href;
 
   useEffect(() => {
     window.scrollTo(0, 0);
