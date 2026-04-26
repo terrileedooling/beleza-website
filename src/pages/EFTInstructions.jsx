@@ -82,19 +82,23 @@ const EFTInstructions = () => {
           <div className="bank-details">
             <div className="detail-row">
               <span className="label">Bank:</span>
-              <span className="value">First National Bank (FNB)</span>
+              <span className="value">Capitec Business</span>
             </div>
             <div className="detail-row">
               <span className="label">Account Name:</span>
-              <span className="value">Beleza Professional Pty Ltd</span>
+              <span className="value">Beleza Professional</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">Account Type:</span>
+              <span className="value">Current Account</span>
             </div>
             <div className="detail-row">
               <span className="label">Account Number:</span>
-              <span className="value">628 789 456 12</span>
+              <span className="value">1053333501</span>
             </div>
             <div className="detail-row">
               <span className="label">Branch Code:</span>
-              <span className="value">250655</span>
+              <span className="value">450105</span>
             </div>
             <div className="detail-row reference-row">
               <span className="label">Reference:</span>

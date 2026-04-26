@@ -173,7 +173,7 @@ export const CartProvider = ({ children }) => {
   // Get available payment methods for checkout
   const getAvailablePaymentMethods = () => {
     const available = [];
-    if (paymentMethods.payfast) available.push({ id: 'payfast', name: 'Credit Card / PayFast', icon: 'fab fa-cc-visa' });
+    if (paymentMethods.payfast) available.push({ id: 'payfast', name: 'Bank Card / PayFast', icon: 'fab fa-cc-visa' });
     if (paymentMethods.eft) available.push({ id: 'eft', name: 'EFT (Bank Transfer)', icon: 'fas fa-university' });
     if (paymentMethods.payjustnow) available.push({ id: 'payjustnow', name: 'PayJustNow', icon: 'fab fa-paypal' });
     if (paymentMethods.payflex) available.push({ id: 'payflex', name: 'PayFlex', icon: 'fas fa-credit-card' });

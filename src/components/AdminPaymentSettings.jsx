@@ -6,7 +6,7 @@ const AdminPaymentSettings = () => {
   const { paymentMethods, togglePaymentMethod } = useCart();
 
   const paymentMethodConfig = [
-    { id: 'payfast', name: 'PayFast (Credit Card)', icon: 'fab fa-cc-visa', description: 'Instant card payments via PayFast' },
+    { id: 'payfast', name: 'PayFast (Card)', icon: 'fab fa-cc-visa', description: 'Instant card payments via PayFast' },
     { id: 'eft', name: 'EFT (Bank Transfer)', icon: 'fas fa-university', description: 'Manual bank transfer with order verification' },
     { id: 'payjustnow', name: 'PayJustNow', icon: 'fab fa-paypal', description: 'Pay in 3 interest-free installments (Coming Soon)' },
     { id: 'payflex', name: 'PayFlex', icon: 'fas fa-credit-card', description: 'Pay in 4 interest-free installments (Coming Soon)' }

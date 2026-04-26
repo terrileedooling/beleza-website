@@ -298,7 +298,7 @@ const Checkout = () => {
                 <div>
                   <strong>How EFT payments work:</strong>
                   <ul>
-                    <li>You'll receive the bank details via WhatsApp</li>
+                    <li>You'll receive the bank details on the next page</li>
                     <li>Make a transfer using the provided reference number</li>
                     <li>Send proof of payment via <strong>WhatsApp to +27 72 114 3123</strong></li>
                     <li>Your order will be processed once payment is confirmed</li>
